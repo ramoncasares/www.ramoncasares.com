@@ -1,0 +1,83 @@
+% DIAGRAM.TEX
+
+\dimen0=\hsize \divide\dimen0 by 10
+\dimen2=\dimen0 \divide\dimen2 by 3 \multiply\dimen2 by 4
+
+\MTbeginchar(\the\dimen0,\the\dimen2,0pt);
+\MT: thickpen;
+\MT: z1 = (0,0); z2 = (0,h); z3 = (w,h); z4 = (w,0);
+\MT: z5 = (1/3w,1/8h); z6 = (1/2w,0); z7 = (2/3w,-1/16h);
+\MT: draw z1 -- z2 -- z3 -- z4;
+\MT: draw z1 .. z5 ..z6 .. z7 .. z4;
+\MT: thinpen;
+\MT: for i = 11 upto 20: y[i] = 1/8h + 7/80h*(i-10); endfor
+\MT: for i = 12,13,15,16,17,19,20:
+\MT:  draw (1/8w,y[i]) -- (7/8w,y[i]);
+\MT: endfor;
+\MT: for i = 11,14,18:
+\MT:  draw (1/4w,y[i]) -- (7/8w,y[i]);
+\MT: endfor;
+\MTendchar;
+
+\setbox0=\box\MTbox
+
+\ifdim\hsize<10cm
+ \let\figfont=\smallsf \def\driver{drv}
+ \dimen0=\hsize \multiply\dimen0 by 2 \divide\dimen0 by 3
+\else
+ \let\figfont=\sf \def\driver{Driver}
+ \dimen0=\hsize \multiply\dimen0 by 2 \divide\dimen0 by 4
+\fi
+
+\MTbeginchar(\the\hsize,\the\dimen0,\the\ht0);
+\MT: save u, v; u = w/10; v = h/10;
+\MT: thickpen;
+%\MT: draw (0,-d)--(0,h)--(w,h)--(w,-d)--cycle; draw(0,0)--(w,0);
+\MT: x1l = x2l = x4l = x7l = 2u;
+\MT: y1t = h - v; z1lbl = z1;
+\MT: rectangle(1)(u,v);
+\MTlabel(1lbl)"\figfont\TeX";
+\MT: y2 = y3 = y1 - 2v; z2lbl = z2; z3lbl = z3; x3 = x2 + 2u;
+\MT: ellipse(2)(u,v); rectangle(3)(u,v);
+\MTlabel(2lbl)"\figfont\TeX"; \MTlabel(3lbl)"\figfont TFM";
+\MT: y4 = y5 = y6 = y2 - 2v; x5 = x3 + 2u; x6 = x5 + 2u;
+\MT: z4lbl = z4; z5lbl = z5; z6lbl = z6;
+\MT: rectangle(4)(u,v); ellipse(5)(u,v); rectangle(6)(u,v);
+\MTlabel(4lbl)"\figfont DVI"; \MTlabel(5lbl)"\figfont MF";
+\MTlabel(6lbl)"\figfont MF";
+\MT: y7 = y8 = y4 - 2v; x8 = x3; z7lbl = z7; z8lbl = z8;
+\MT: ellipse(7)(u,v); rectangle(8)(u,v);
+\MTlabel(7lbl)"\figfont\driver"; \MTlabel(8lbl)"\figfont GF";
+\MT: x9 = x7; y9t = y7t - 2v;
+\MTlabel(9)"\box0";
+\MT: x31r = x2l - u; y31 = y2; z31lbl = z31; rectangle(31)(u,v);
+\MTlabel(31lbl)"\figfont FMT";
+\MT: x32 = x5; y32b = y5t + v; z32lbl = z32; rectangle(32)(u,v);
+\MTlabel(32lbl)"\figfont BAS";
+\MT: x33 = x31; y33 = y4; z33lbl = z33; rectangle(33)(u,v);
+\MTlabel(33lbl)"\figfont log";
+\MT: x34 = x32; y34 = y7; z34lbl = z34; rectangle(34)(u,v);
+\MTlabel(34lbl)"\figfont log";
+\MT: thinpen; join_radius:=15pt;
+\MT: z11o = (x1,h); z11d = (x1,y1t); arrow(11);
+\MT: z12o = (x1,y1b); z12d = (x2,y2t); arrow(12);
+\MT: z13o = (x3l,y3); z13d = (x2r,y2); arrow(13);
+\MT: z14o = (x2,y2b); z14d = (x4,y4t); arrow(14);
+\MT: z15o = (w,y6); z15d = (x6r,y6); arrow(15);
+\MT: z16o = (x6l,y6); z16d = (x5r,y5); arrow(16);
+\MT: z17o = (x5l,y5); z17d = (x3,y3b); z17m = (x3,y5);
+\MT: arroww(17);
+\MT: z18o = (x5l,y5); z18d = (x8,y8t); z18m = (x8,y5);
+\MT: arroww(18);
+\MT: z19o = (x4,y4b); z19d = (x7,y7t); arrow(19);
+\MT: z20o = (x8l,y8); z20d = (x7r,y7); arrow(20);
+\MT: z21o = (x7,y7b); z21d = (x9,y9t); arrow(21);
+\MT: z41o = (x31r,y31); z41d = (x2l,y2); arrow(41);
+\MT: z42o = (x32,y32b); z42d = (x5,y5t); arrow(42);
+\MT: z43o = (x2,y2b); z43d = (x33r,y33t); arrow(43);
+\MT: z44o = (x5,y5b); z44d = (x34,y34t); arrow(44);
+\MT: x0 = w/2; y0 = y9; % y0b = -d;
+\MTlabel(0)"\rm \TeX\ formats";
+\MTendchar;
+
+\centerline{\box\MTbox}

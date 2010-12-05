@@ -1,0 +1,23 @@
+% FRAME.TEX (RMCG19950401)
+
+\catcode`\@=11
+
+\newbox\@uxbox
+
+\let\oldhrule=\hrule \let\oldvrule=\vrule
+\def\rulethickness{\afterassignment\rul@thickness\dimen0 }
+\def\rul@thickness{\edef\hrule{\oldhrule height\dimen0 }%
+ \edef\vrule{\oldvrule width\dimen0 }}
+
+\def\framebox{\afterassignment\fr@mebox\count@=}
+\def\fr@mebox{\ifvoid\count@\else \bgroup
+  \dimen0=\wd\count@ \dimen2=\ht\count@ \advance\dimen2\dp\count@
+  \global\setbox\@uxbox=\vtop{
+   \hbox to\dimen0{\vrule\hss\vbox to \dimen2{\hrule\vss
+     \hbox to\dimen0{}\vss\hrule}\hss\vrule}\kern0pt}\egroup
+ \wd\@uxbox=0pt \ht\@uxbox=0pt \dp\@uxbox=0pt
+ \ifhbox\count@
+  \setbox\count@=\hbox{\raise\ht\count@\box\@uxbox\box\count@}\else
+  \setbox\count@=\vbox{\box\@uxbox\nointerlineskip\box\count@}\fi\fi}
+
+\catcode`\@=12

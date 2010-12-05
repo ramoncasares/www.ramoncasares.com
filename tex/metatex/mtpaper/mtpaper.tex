@@ -1,0 +1,654 @@
+
+\input tugboat.sty
+
+%\input tugboat.dates
+%\input tb75pages
+%\pageno=\TBcasa
+
+% EXTRA CODE
+
+\ifx\plaindefaults\undefined \let\next=\relax
+\else \let\next=\plaindefaults \fi \next
+
+\input metatex
+\MTline{input delay.mf;}
+
+\def\MTeX{{\manual META}\-\TeX}
+\font\smallsf=cmssq8
+\font\sf=cmss10
+
+% END EXTRA CODE
+
+
+\title * {\MTeX} *
+\author * Ram\'on Casares *
+\address * Telef\'onica de Espa\~na *
+\netaddress * r.casares@computer.org *
+
+\article %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\head * Abstract *
+
+{\MTeX} is a set of {\plain} {\TeX} and {\MF} macros that you can use to
+define both the text and the figures in a single source file. Because
+{\MTeX} sets up two way communication, from {\TeX} to {\MF} and back
+from {\MF} to {\TeX}, drawing dimensions can be controlled by {\TeX} and
+labels can be located by {\MF}. Only standard features of {\TeX} and
+{\MF} are used, but two runs of {\TeX} and one of {\MF} are needed.
+
+
+\head * Overview *
+
+Together, {\TeX} and {\MF} define the page layout to the pixel.  This
+means that nothing more is needed, not even a means of including figures
+in a {\TeX} document.  To prove this is the aim of this paper.
+
+To split the typesetting process in two parts, one to define and draw
+the characters and the other to arrange the characters in paragraphs and
+pages, is surely the best way to reduce the complexity of the
+typesetting task, provided it needs simplification (see Figure~1).  But
+this method makes it difficult, for example, to integrate labels with
+graphics in figures, because while {\TeX} is best suited to typeset the
+labels, {\MF} is the appropriate tool to draw the graphics.  And, of
+course, labels should be located in accordance with the graphics.
+
+Therefore, the true successor of {\TeX} has to include in a single
+program both the capabilities of {\TeX} and {\MF}.  Then the typesetting
+engine would include a powerful graphic tool, a grid in which to typeset if
+required, and it could take into account the shapes of the characters to
+determine, for example, kernings or italic corrections.  The other way
+around is also possible.  It could be seen as a graphic engine with a
+powerful typesetting tool. From this point of view, the page would be a
+graphic object that could contain paragraphs of different shapes
+requested from the typesetting tool.
+
+\MTeX, although it does not fulfill the requirements of such a
+successor, can be seen as an early sign of its possibilities.  For the
+moment, {\MTeX} takes advantage of {\MF}'s equation solving capabilities
+to locate objects, including the labels, which are typeset by {\TeX}.  The
+cost of this nice feature is that two {\TeX} passes are required.
+
+During the first {\TeX} pass a {\MF} file is written.  As it is {\TeX}
+itself who writes the {\MF} file, any dimension controlled by {\TeX} can
+be used and incorporated in {\MF}'s calculations.  For example, the label
+sizes, as they will be typeset by {\TeX}, are made known to {\MF}.
+
+After the first {\TeX} pass, {\MF} draws the graphic figures and
+writes the label locations in its log file.  So it is {\MF}'s
+responsibility to locate the labels.  Note that, depending on the style
+of {\MF} programming, this can be completely determined from {\TeX}. In
+other words, you can relate the label location to the location and size
+of other {\MF} objects, or not.
+
+When {\TeX} executes its second pass, it takes the graphics
+from the new font, reads the location of labels from the
+{\MF} log file, and then everything is complete.
+
+Because labels are just |\hbox|es typeset by \TeX, every macro currently
+defined for text automatically applies also to figures. For example, if
+a macro |\person| is defined to write its argument in a small caps font
+and save it to an index file, the same happens whenever it is used
+inside a figure label.
+
+
+\head * Methods *
+
+{\MTeX} allows the source file to include, in addition to the customary
+{\TeX} macros to control the text, other commands to generate
+figures with {\MF}.
+
+\subhead * Steps *
+
+In order to use {\MTeX} the following three steps are to be executed:
+
+\list[\numbered]
+
+\item The {\MTeX} file, suppose it is |filename.ext|, is first
+processed by |TEX|, with the {\plain} format, during which a {\MF} file
+named |auxiliar.mf| is created.  This {\MF} file contains information
+provided by {\TeX} concerning the size of the labels, so the |MF|
+program can delete this area from the figure if requested. If the output
+file |filename.dvi| were typeset now, it would have blanks in place of
+the figures, but otherwise be the same as the final document.
+
+\item Then |MF|, with the {\plain} base, is run on |auxiliar.mf|.
+As a result, information specifying where to typeset the labels is
+written in the log file, |auxiliar.log|.  In addition, the metric file,
+|auxiliar.tfm|, and the generic format bitmap font, |auxiliar.329gf|,
+are created.  On my system I have to process this |gf| file to get a
+|pk| file that my drivers can read, so I execute the program |GFtoPK| on
+it, getting the packed bitmap font |auxiliar.329pk|. Please note three
+points.  i)~The number |329|, referring to the resolution, varies
+according to the {\MF} mode.  ii)~The |tfm| and |pk| files must be in or
+moved to directories where programs can find them. iii)~{\MTeX} sets the
+{\MF} mode to |localfont|, thus assuming that |localfont| is assigned
+the appropriate name.
+
+\item Lastly, |filename.ext| is again run through |TEX|.  During this
+second run, both the font |auxiliar| containing the figures and the
+information explaining where to locate the labels are available, so the
+document is complete.
+
+\endlist
+
+The figures fill exactly the same area in both the first and second
+|TEX| program runs, so indices, tables of contents, and other references
+that also need two passes to be resolved can take advantage of the two
+runs needed by {\MTeX}.
+
+\subhead * Use *
+
+To use the {\MTeX} macros, they must be imported by writing in the
+source file:  ||\input metatex||
+
+\noindent This has to be written after |\mag| has been given its final
+value. When |metatex.tex| is read, {\MTeX} checks whether the file
+|auxiliar.mf| exists. If it does not exist, then things are set up for
+the first pass; for example, |auxiliar.mf| is opened for writing.  If it
+does exist, then things are set for the second pass; for example,
+|auxiliar.log| is opened for reading.  This means that if
+|auxiliar.mf| is not deleted, then step~3, the second |TEX| program
+pass, is executed directly.  This saves time when only the text in file
+|filename.ext|, but not the figures, were modified.
+
+\subhead * User macros *
+
+The {\MTeX} user macros are:
+
+\list
+
+\item |\MTbeginchar(wd,ht,dp);| states that a figure sized as given
+(width |wd|, height |ht|, depth |dp|) will be created.  These values
+should be known both by {\TeX} and by {\MF}, so for example |12pt|,
+|6cm|, |\the\hsize| or |\the\dimen0|, always without |#|, are allowed.
+During the {\it first pass}, {\TeX} writes in |auxiliar.mf| the {\MF}
+macro |beginchar| assigning character codes sequentially, and box
+|\MTbox| is made empty but sized as specified by the arguments of this
+macro. During the {\it second pass}, {\TeX} puts the corresponding
+character of the font |auxiliar| in box |\MTbox|.  The size of |\MTbox| is
+that specified and not affected by the character dimensions.
+
+\item |\MTendchar;| finishes the figure definition.  During the
+{\it first pass}, {\TeX} writes the {\MF} macro |endchar;| in file
+|auxiliar.mf|. During the {\it second pass}, box |\MTbox| contains the
+complete figure, including labels.  Something like |\box\MTbox| is
+used to typeset the figure.
+
+\item |\MTlabel*(s)cc"Text";| adds a label to the current figure.
+The parameter between quotes, |Text| in the example, is the label
+content; it will be put inside an |\hbox| and therefore could be
+anything that {\TeX} allows inside an |\hbox|. The optional asterisk
+after |\MTlabel| instructs {\MTeX} to erase the area of the figure
+already drawn that it is under the label.
+
+The label will be located at {\MF} point |z.s|, where |s| is the parameter
+between parentheses. The reference point is further specified by the
+optional parameter after the right parenthesis, |cc| in the example.
+This parameter is composed of exactly two letters: the first can be |t|
+meaning top, |c| meaning center or |b| meaning bottom; and the second
+letter can be |l| meaning left, |c| meaning center or |r| meaning right.
+So, for example, |tl| means that the label reference point is its top
+left corner. The default value for the reference point is |cc|, that is,
+its center.
+
+|\MTlabel| should only be used between |\MTbeginchar| and |\MTendchar|.
+During the {\it first pass}, it writes the following three elements in
+|auxiliar.mf|: i)~the {\MF} macros which in turn cause |MF| to write the
+label reference point location to its log file, |auxiliar.log|; ii)~the
+four label sides, which are by this means made available to the
+following {\MF} code for the figure, notated as |y.s.t| for the top side,
+|y.s.b| for the bottom side, |x.s.l| for the left side and |x.s.r| for the right
+side; and iii)~the code to delete, if requested, the figure area already
+drawn that is under the rectangle occupied by the label. During the {\it
+second pass}, it adds the label to the box |\MTbox| in the place that
+reads from file |auxiliar.log|, making no modification to the dimensions of
+|\MTbox|, even if the label is typeset outside the box.
+
+\endlist
+
+There are three more macros for passing information to \MF, that is, for
+writing general text in |auxiliar.mf|: |\MT:|, |\MTcode| and |\MTline|.
+This happens only during the first pass; during the second pass, these
+macros do nothing.
+
+\list
+
+\item |\MT:| writes in file |auxiliar.mf| everything till the end of
+line. It writes verbatim except for the character |\|, which keeps its
+normal {\TeX} |\catcode| of |0|.  Spaces are {\it not\/} ignored after
+macros. The sequence |\\| writes a single |\| in file |auxiliar.mf|.
+
+\item |\MTcode| writes in file |auxiliar.mf| everything until it finds a
+line equal (including |\catcode|s) to the current value of |\MTendmark|.
+By default, this is a blank line, thus, |\def\MTendmark{}|.  As with
+|\MT:|, it writes verbatim except for |\|, which still operates as an
+escape character.  The control sequence |\\| writes a single |\| in file
+|auxiliar.mf|.
+
+\item |\MTline{text}| writes its parameter to |auxiliar.mf|,
+|text| in the example.  It does not change the |\catcode|s in the
+argument, so it does not perform verbatim writing.  But all {\plain}
+special characters can be written prefixing them by the escape character
+|\|. The {\plain} special characters are (not including the first colon
+nor the final period): |\{}$&#^_~%|.  For example, |\#| results in
+|#|.
+
+\endlist
+
+When defining {\TeX} macros that write to |auxiliar.mf|, |\MTline|
+should generally be used in preference to |\MT:| or |\MTcode|, because
+the latter two use
+the end of line in a special way that is not usually available when
+{\TeX} is reading a macro.
+
+{\TeX} dimensions can be included using any of these three writing
+macros.  For example, |\the\hsize| will be expanded to {\tt \the\hsize}
+(for the present article),
+and written as such to the {\MF} file |auxiliar.mf|. Note that the character
+|\| keeps its escape |\catcode| in all three writing macros.  In the
+case of |\MTline|, braces |{}| also keep their |\catcode|s and therefore
+macros with parameters can be used normally.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\head * Examples *
+
+\subhead * Diagram *
+
+First a typical example of {\MTeX} usage, showing the file formats,
+programs, and their relationships.  The figure width is exactly
+|\hsize|, but what is more important is that the same code will adapt
+itself to any value for the measure.  Well, of course, not to {\it any\/}
+width but to any width between, let's say, $8\,$cm and $25\,$cm.
+
+\figure[\caption{Figure 1: One column diagram}]
+ \input diagram
+\endfigure
+
+%\twocolfigure[\caption{Figure 2: Two columns diagram}]
+% \input diagram
+%\endfigure
+
+Figure~1 is the one column version, and Figure~2 (above the appendix) is
+the two column version, generated by the same source.
+
+
+%%%%%%%%%%%%%%%%%%%
+
+\input shadow
+
+\def\beginshadowpar{\setbox0=\vbox\bgroup \kern3pt
+ \advance\parindent by -3pt \leftskip=3pt\rightskip=3pt }
+\def\endshadowpar{\par\kern3pt\egroup\framebox0\shadowbox0\box0 }
+
+% \subhead * Shadowing *
+\bigskip % \subhead skip
+
+\beginshadowpar\noindent
+{\bf Shadowing.} Both {\TeX} and {\MF} are ill suited to creating
+shadows. In {\TeX}, one straightforward technique is double use of
+|\leaders|, but in practice this results in huge |dvi| files.  In {\MF},
+drawing lots of tiny points easily exceeds the capacity of the program.
+The solution is to coordinate the work of both programs.
+\endshadowpar
+
+To create a large rectangular shadow we divide it into an array of $n
+\times m$ smaller rectangles. The smaller rectangles are all identical,
+so it is enough for {\MF} to draw one shadow character and then for
+{\TeX} to typeset a solid area repeating it.
+
+To simplify the tasks of both {\TeX} and {\MF}, the size of the shadow
+character should be similar to that of normal characters, because neither
+program was designed to work well with extraordinarily large (or small)
+characters. So a
+good approach is to make the shadow character as big as possible but
+never wider nor higher than 16$\,$pt.
+
+For {\MTeX}, each figure is a character. This causes problems with {\MF}
+when the figure is big and the resolution is high, because it cannot
+draw areas bigger than $4095\times4095$ pixels. This is not usually a
+problem working at 300$\,$dpi. (It is never a problem with {\MP}, see
+the following section on {\PS}. Another advantage of using {\PS} is that
+you get a shadow simply by drawing a grey rule, and none of the above
+machinations are necessary.)
+
+%%%%%%%%%%%%%%%%%%%
+
+\subhead * Keys *
+
+After the following {\MTeX} macros:
+
+\verbatim[\numbered\outputtofile{keys.tex}]
+\MTcode
+def keybox =
+ pickup pencircle scaled 0.8pt;
+ x1 = x3 = 1pt;
+ x2 = x4 = w - 1pt;
+ x5 = 0; x6 = w;
+ y1 = y2 = -d;
+ y3 = y4 = h;
+ y5 = y6 = (h - d)/2;
+ draw z1 -- z2 .. z6{up} ..
+    z4 -- z3 .. z5{down} .. cycle;
+ z0 = (x1,0);
+enddef;
+
+\def\defkey#1#2{\setbox0=\hbox{\sf#2}%
+ \dimen0=\wd0\advance\dimen0 by 2pt
+ \dimen2=\ht0\advance\dimen2 by 1pt
+ \dimen4=\dp0\advance\dimen4 by 1pt
+ \MTbeginchar(\the\dimen0,%
+              \the\dimen2,%
+              \the\dimen4);%
+  \MTline{keybox;}%
+  \MTlabel(0)bl"\sf #2";%
+ \MTendchar;%
+ \expandafter\newbox
+  \csname\string#1box\endcsname
+ \expandafter\setbox
+  \csname\string#1box\endcsname
+  =\vtop{\unvbox\MTbox}%
+ \def#1{\expandafter\copy
+  \csname\string#1box\endcsname}}
+
+\def\makekey#1{\expandafter\defkey%
+ \csname#1\endcsname{#1}}
+\endverbatim
+
+\input keys
+
+Then, we can declare |\makekey{Alt}|\makekey{Alt} to
+typeset {\Alt} simply via |\Alt|.  It is also possible to
+declare |\defkey\escape{\tt\char92}|\defkey\escape{\tt\char92} and then
+|\escape| results in \escape.
+
+%%%%%%%%%%%%%%%%%%%
+
+\subhead * Baroque tables *
+
+Baroque periods are the result of new technical achievements providing
+unexplored possibilities and hence the urgent need to experiment with them,
+frequently far away from what discretion might recommend. This explains
+the time of baroque software that we live in, and increases the value of
+\MTeX, because it provides the means to easily draw baroque tables. I am not
+a baroque man, so my baroque table example is not baroque but, and this
+is the point, it is at least not built with straight lines.
+
+\MTcode
+def tablebox =
+ pickup pencircle scaled 1.6pt;
+ x0 = 5pt; y0 = 5pt;
+ draw (0,h) ... (w/2,h+y0) ... (w,h) ... (w+x0,(h-d)/2) ... (w,-d) ...
+      (w/2,-d-y0) ... (0,-d) ... (-x0,(h-d)/2) ... cycle;
+enddef;
+
+\def\beginbaroquetable{\setbox0=\vbox\bgroup
+ \halign\bgroup##\hfil&&\quad##\hfil\cr}
+\def\endbaroquetable{\crcr\egroup\egroup
+ \MTbeginchar(\the\wd0,\the\ht0,\the\dp0);%
+  \MTline{ tablebox;}%
+ \MTendchar;%
+ $$\rlap{\box\MTbox}\box0$$}
+
+\beginbaroquetable
+ This is not a straight table\cr
+ but it's only an example\cr
+ and therefore not so ample\cr
+ of what's {\MTeX}-able!
+\endbaroquetable
+
+%%%%%%%%%%%%%%%%%%%
+
+\MTcode
+def leftbrace =
+ pickup penrazor scaled 2pt rotated 30;
+ x3 = 0; x0 = x6 = w; x1 = x5 = w/5; x2 = x4 = w-x1;
+ y0 = 0; y1 = h/8; y2 = h/3; y3 = h/2;
+ y4 + y2 = h; y1 + y5 = h; y6 = h;
+ draw z0 .. z1 .. z2 .. z3;
+ draw z6 .. z5 .. z4 .. z3;
+enddef;
+
+\def\beginbracedpar{\setbox0=\vbox\bgroup
+ \leftskip=20pt }
+\def\endbracedpar{\strut\par\egroup
+ \MTbeginchar(20pt,\the\ht0,0pt);%
+  \MTline{ leftbrace;}%
+ \MTendchar;%
+ \hbox to\hsize{\rlap{\box\MTbox}\box0\hss}}
+
+%\subhead * Ornate paragraphs *
+\bigskip % \subhead skip
+
+\beginbracedpar\noindent
+{\bf Ornate paragraphs.} Only if you are truly baroque can you get the
+most from {\MTeX}. If, for example, you like ornate paragraphs, you are
+in your element. Just put the material in a |\vbox| to get the height
+and the depth, and pass these dimensions to {\MF} to draw a right sized
+embellishment. Ah!, but be aware that Computer Modern is a neoclassical
+font, so it won't mix well with your elaborations.
+\endbracedpar
+
+%%%%%%%%%%%%%%%%%%%
+
+% To fill unused space!
+\MTcode
+ def tribar(expr alpha) =
+  pickup pencircle scaled 0.8pt;
+  % draw (0,0)--(w,0)--(w,h)--(0,h)--cycle;
+  save u, v; u = w/2; v = 12;
+  z1 = (w/2,h/2) + u*(right rotated alpha);
+  z2 = (w/2,h/2) + u*(right rotated (alpha+120));
+  z3 = (w/2,h/2) + u*(right rotated (alpha-120));
+  z1r = (w/2,h/2) + u*(right rotated (alpha+v));
+  z2r = (w/2,h/2) + u*(right rotated (alpha+120+v));
+  z3r = (w/2,h/2) + u*(right rotated (alpha-120+v));
+  draw z1 .. z1r; draw z2 .. z2r; draw z3 .. z3r;
+  draw z1 .. z3r; draw z2 .. z1r; draw z3 .. z2r;
+  z1m = whatever[z1,z2r]; z1m = whatever[z1r,z3];
+  z2m = whatever[z2,z3r]; z2m = whatever[z2r,z1];
+  z3m = whatever[z3,z1r]; z3m = whatever[z3r,z2];
+  draw z1 .. z2m; draw z2 .. z3m; draw z3 .. z1m;
+  z1ra = z1 reflectedabout (z1r,z1m);
+  z2ra = z2 reflectedabout (z2r,z2m);
+  z3ra = z3 reflectedabout (z3r,z3m);
+  draw z1m .. z1ra; draw z2m .. z2ra; draw z3m .. z3ra;
+  z3x - z1x = whatever*(z3-z1m);
+  z2x - z3x = whatever*(z2-z3m);
+  z1x - z2x = whatever*(z1-z2m);
+  z1ra - z1x = whatever*(z3-z1m);
+  z3ra - z3x = whatever*(z2-z3m);
+  z2ra - z2x = whatever*(z1-z2m);
+  z1y = whatever[z1m,z3]; z1y = whatever[z1x,z2x];
+  z2y = whatever[z2m,z1]; z2y = whatever[z2x,z3x];
+  z3y = whatever[z3m,z2]; z3y = whatever[z3x,z1x];
+  draw z1x .. z3y;
+  draw z2x .. z1y;
+  draw z3x .. z2y;
+ enddef;
+
+\def\tribar#1#2{% #1=ht, #2=angle
+ \MTbeginchar(#1,#1,0pt);\MTline{tribar(#2);}\MTendchar;\box\MTbox}
+
+\newcount\angle \angle=-36
+\newdimen\tribarht \tribarht=75pt
+
+%\subhead * Exercice *
+\bigskip % \subhead skip
+
+ \noindent
+ {\bf Exercise.}\footnote*{The real exercise is to fill the rest of the
+ page with tribars. A clue: let {\TeX} to calculate how many are needed,
+ so you can concentrate your efforts in drawing the figure.}
+ Take three equal bars and build as shown.
+ Ask Roger Penrose if you don't find the solution.
+ \vskip1pc
+
+ \loop
+  \vfil
+  \line{\tribar{\the\tribarht}{\the\angle}\hfil \global\advance\angle5
+        \tribar{\the\tribarht}{\the\angle}\hfil \global\advance\angle5
+        \tribar{\the\tribarht}{\the\angle}\global\advance\angle5 }
+  \dimen0=\pagegoal \advance\dimen0 by-\pagetotal
+ \ifdim\dimen0>\tribarht
+ \repeat
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\head * {\PS} *
+
+By taking advantage of {\MP}, we can make {\PS} versions of the
+{\MTeX} files.  Simply execute |mpost &plain auxiliar.mf| instead of
+{\MF} and, after {\TeX}'s second pass, execute |dvips| ({\MTeX} uses
+|dvips| specials). This works because |auxiliar.mf| is valid code
+for both {\MF} and {\MP}, and because, in the second {\TeX} pass,
+{\MTeX} checks which one was used and adapts itself to the situation.
+
+And thanks to {\PDF\TeX} and the Con{\TeX}t files |supp-mis.tex| and
+|supp-pdf.tex|, it is also possible to get \acro{PDF} output. Just
+execute {\PDF\TeX} twice, instead of {\TeX}, and once {\MP}, instead of
+{\MF}. (In practice, {\MTeX} uses its own macro file |mtmp2pdf.tex| for
+this, instead of the Con{\TeX}t files. I extracted all that {\MTeX}
+needs from the Con{\TeX}t files into |mtmp2pdf.tex|.)
+
+This works because, if {\MTeX} determines that {\MP} was employed to
+draw the figures, it then checks which program, {\TeX} or {\PDF\TeX}, is
+executing. If {\TeX}, then it includes the files produced by {\MP} using
+the |dvips| specials. If {\PDF\TeX}, it translates from |ps| to |pdf|.
+
+Therefore, the same {\MTeX} source file generates at will any of the
+three output formats---|dvi|, |ps|, or |pdf|---just by running the
+appropriate programs. In the appendix, as an example, there is a
+\acro{DOS} batch file that shows how to get the |pdf| version of a file
+|filename.ext|.
+
+
+\head * Other graphical tools *
+
+There are other tools to include pictures in a {\TeX} document.
+{\LaTeX}'s |picture| environment, {\PiCTeX}, and |mfpic|, are three of
+them. {\MTeX} is similar to |mfpic|, in that both use {\MF} to draw.
+
+The aim of |mfpic| is to overcome the difficulties of {\LaTeX}'s
+|picture| environment and of {\PiCTeX}. {\LaTeX}'s |picture| environment
+uses four pre-cooked special fonts, and its drawings are just
+compositions of these characters (as well as {\TeX}'s builtin |\hrule|s and
+|\vrule|s). {\PiCTeX} only uses a tiny point to compose the pictures, so
+it is more general. But letting {\TeX} to draw the figures setting point
+after point is painful, as noted above. The |mfpic| solution uses a
+better tool for drawing: {\MF}.
+
+With these origins, for |mfpic|, {\MF} is a hidden back-end processor,
+and |mfpic| imposes only two requirements on its users: to know {\TeX},
+and to know |mfpic|. On the other hand, {\MTeX}'s approach is
+minimalist, at the cost of being more demanding with its users.  A
+{\MTeX} user has to know {\TeX}, {\MF}, and {\MTeX}\Dash although this
+last requirement is small, because {\MTeX} only builds the necessary
+bridges to use {\TeX} and {\MF} in a cooperative way.
+
+A feature that shows the different strategies employed in designing
+|mfpic| and {\MTeX} is label positioning. {\MTeX} labels are located by
+{\MF}, so {\TeX} has to read the {\MF} log file to learn where to
+typeset them. For |mfpic|, {\TeX} itself locates the labels,
+but by doing so |mfpic| has to give up some nice {\MF} characteristics,
+such as its equation solving capabilities.
+
+% |mfpic| is to {\LaTeX} as {\MTeX} is to |plain| {\TeX}.
+In summary, |mfpic|'s aim is to draw pictures in {\TeX} documents in a
+better way than using {\LaTeX}'s |picture| environment or {\PiCTeX};
+while {\MTeX}'s intention is to coordinate the work of {\TeX} and
+{\MF}. In this way, {\MTeX} provides the full raw power of {\TeX} and
+{\MF}, and it is up to you to harness them.
+
+
+\head * Final remarks *
+
+I have been using {\MTeX} for some years.  The first version was dated
+1994, but it has been used only for personal purposes. For this reason,
+it is not truly a straightforward end-user tool, as for example {\LaTeX} packages
+should be.  It has to be used knowledgeably and with care. And though
+most tasks can be automated, by chaining {\TeX} and {\MF} errors are
+even more difficult to pinpoint than in {\TeX} or {\MF} alone.
+
+Nevertheless, {\MTeX} serves to validate the feasibility of a closer
+collaboration between {\TeX} and {\MF} and to appraise the interest of
+such a collaboration. And, of course, if you dare, you can get lots of
+fun, and at least an equal amount of frustration, using {\MTeX}. Try it!
+
+The {\MTeX} package is available from {\CTAN} in
+\acro{CTAN}|:/macros/plain/contrib/metatex|.
+
+Happy {\MTeX}ing!
+
+
+\makesignature
+
+
+\newpage
+
+
+\onecol % Annex in one column, can't switch to \twocol on the same page
+        % with current plain tugboat macros.
+
+\figure[\caption{Figure 2: Two-column diagram}]
+\input diagram
+\endfigure
+
+\head * Appendix: Pseudo-batch example *
+
+This is an example based on \acro{DOS} batch files that can be adapted for
+other operating systems. It processes the file |filename.ext|, generating
+|filename.pdf|. We will comment each line of pseudo-code.
+
+\list[\numbered]
+\item We go to the directory where our working files are.
+ ||cd c:\dir\subdir\mydir||
+\item We set environment variables (if necessary). In this case we are
+using a |web2c| system, so it is enough to set one. In |web2c|, by
+default, all programs look for files in the current dir, ``|.|'', and
+that is enough for us.
+ ||set TEXMFCNF=c:\tex\texmf.local\web2c;c:\tex\texmf\web2c;d:\texmf\web2c||
+\item We tell the operating system where to find the programs.
+ ||path=$path$;c:\tex\bin\dos||
+\item After the settings, we force the first {\TeX} pass.
+ ||if exist auxiliar.mf del auxiliar.mf||
+\item Then, we execute the first {\TeX} pass (in this case, it is {\PDF\TeX}).
+ ||pdftex &plain filename.ext||
+\item If {\MTeX} was not used, and no |auxiliar.mf| was written, then we
+are done.
+ ||if not exist auxiliar.mf goto end||
+\item Otherwise we run {\MP} with its |&plain| memory (format),
+also known as |&mpost|.
+ ||mpost &plain auxiliar.mf||
+\item Finally, we execute the second {\TeX} pass.
+ ||pdftex &plain filename.ext||
+\item We now have the complete |filename.pdf| file.
+ ||:end||
+
+\endlist
+
+\MTline{end.} % METATeX changes \bye
+\endarticle
+
+
+% To check labels (ink intensive example!)
+\MTbeginchar(5cm,5cm,0cm);
+\MT: fill (0,0)--(w,0)--(w,h)--(0,h)--cycle;
+\MT: z0 = (w/2,h/2);
+\MT: z1 = (w/2,3h/4); z11 = z1;
+\MT: z2 = (w/2,h/4);
+\MT: z3 = (0,h/2);
+\MT: z4 = (0,h/4);
+\MTlabel*(0)"Center";
+\MTlabel*(1)tl".";
+\MTlabel*(11)br".";
+\MTlabel*(2)":";
+\MTlabel(3)"Out";
+\MTlabel*(4)"Intruder";
+\MTendchar;
+$$\box\MTbox$$

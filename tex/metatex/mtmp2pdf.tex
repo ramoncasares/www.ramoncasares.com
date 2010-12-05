@@ -1,0 +1,369 @@
+% MTMP2PDF.TeX (RMCG19970919)
+
+% MTMP2PDF.TeX converts from PostScript code (by METAPost) to PDF
+% Adapted by Ram\'on Casares from ConTeXt by PRAGMA
+% ConTeXt copyright={PRAGMA / Hans Hagen & Ton Otten}
+% Under the same terms as ConTeXt
+% http://www.pragma-ade.com/general/manuals/mreadme.pdf
+
+% \catcode`\@ should be 11
+
+\newcount\MPcounter
+\newdimen\MPdimen
+
+% POSTSCRIPT operators that METAPOST uses
+
+\def \PScurveto          {curveto}
+\def \PSlineto           {lineto}
+\def \PSmoveto           {moveto}
+\def \PSshowpage         {showpage}
+\def \PSnewpath          {newpath}
+\def \PSfshow            {fshow}
+\def \PSclosepath        {closepath}
+\def \PSfill             {fill}
+\def \PSstroke           {stroke}
+\def \PSclip             {clip}
+\def \PSrlineto          {rlineto}
+\def \PSsetlinejoin      {setlinejoin}
+\def \PSsetlinecap       {setlinecap}
+\def \PSsetmiterlimit    {setmiterlimit}
+\def \PSsetgray          {setgray}
+\def \PSsetrgbcolor      {setrgbcolor}
+\def \PSsetdash          {setdash}
+\def \PSgsave            {gsave}
+\def \PSgrestore         {grestore}
+\def \PStranslate        {translate}
+\def \PSscale            {scale}
+\def \PSconcat           {concat}
+\def \PSdtransform       {dtransform}
+
+\def \PSBoundingBox      {BoundingBox:}
+\def \PSHiResBoundingBox {HiResBoundingBox:}
+\def \PSExactBoundingBox {ExactBoundingBox:}
+\def \PSPage             {Page:}
+
+% A stack
+
+\newcount\nofMPsegments
+\newcount\nofMParguments
+
+\def\@@MP{@@MP}
+
+\def\setMPargument#1{\advance\nofMParguments by 1
+ \expandafter\def
+ \csname\@@MP\the\nofMPsegments\the\nofMParguments\endcsname%
+ {\do#1}}
+
+\def\gMPa#1{\csname\@@MP0#1\endcsname}
+\def\gMPs#1{\csname\@@MP\the\nofMPsegments#1\endcsname}
+
+\def\setMPkeyword#1
+  {\expandafter\def\csname\@@MP\the\nofMPsegments0\endcsname{#1}%
+   \advance\nofMPsegments by 1 \nofMParguments=0\relax}
+
+\def\getMPkeyword#1{\csname\@@MP#10\endcsname}
+
+\def\resetMPstack{\catcode`\%=13 % active
+   \let\handleMPgraphic=\handleMPendgraphic
+   \def\resetMPstack{\nofMParguments=0\relax}%
+   \resetMPstack}
+
+% Ignore, most of times, ( and ), but with care
+% Take care, also of TeX specials
+
+\def\octalMPcharacter#1#2#3{\char'#1#2#3\relax}
+
+\bgroup
+\catcode`\|=14 \catcode`\%=13 \catcode`\[=13 \catcode`\]=13
+\catcode`\{=13 \catcode`\}=13 \catcode`B=1 \catcode`E=2
+\gdef\ignoreMPspecialsB\def%BE\def[BE\def]BE\def{BE\def}BEE
+\gdef\obeyMPspecialsB\def%B\char 37\relax E|
+ \def[B\char 91\relax E\def]B\char 93\relax E|
+ \def{B\char123\relax E\def}B\char125\relax EE
+\gdef\setMPspecialsB\catcode`\%=13
+ \catcode`\[=13 \catcode`\]=13 \catcode`\{=13 \catcode`\}=13
+ \catcode`\$=11 \catcode`\_=11 \catcode`\#=11 \catcode`\^=11
+ \catcode`\&=11 \catcode`\|=11 \catcode`\~=11
+ \def\(B\char40\relax E\def\)B\char41\relax E\def\\B\char92\relax E|
+ \def\0B\octalMPcharacter0E\def\1B\octalMPcharacter1E|
+ \def\2B\octalMPcharacter2E\def\3B\octalMPcharacter3E|
+ \def\4B\octalMPcharacter4E\def\5B\octalMPcharacter5E|
+ \def\6B\octalMPcharacter6E\def\7B\octalMPcharacter7E|
+ \def\8B\octalMPcharacter8E\def\9B\octalMPcharacter9EE
+\egroup
+
+% We use the comment symbol as a sort of trigger:
+
+\bgroup \catcode`\%=13
+\gdef\startMPscanning{\let%=\startMPconversion}
+\egroup
+
+\def\startMPconversion{\catcode`\%=9 \ignoreMPspecials \handleMPsequence}
+
+% The main loop.
+% Most arguments are numbers that can be recognized by their \lccode.
+
+\def\dohandleMPsequence#1#2 {\ifnum\lccode`#1=0 \setMPargument{#1#2}%
+ \else \edef\somestring{#1#2}\ifx\somestring\PSmoveto
+   \edef\lastMPmoveX{\gMPa1}\edef\lastMPmoveY{\gMPa2}%
+   \pdfliteral{\gMPa1 \gMPa2 m}\resetMPstack
+  \else\ifx\somestring\PSnewpath \let\handleMPsequence=\handleMPpath
+  \else\ifx\somestring\PSgsave \pdfliteral{q}\resetMPstack
+  \else\ifx\somestring\PSgrestore \pdfliteral{Q}\resetMPstack
+  \else\ifx\somestring\PSdtransform % == setlinewidth
+   \let\handleMPsequence=\handleMPdtransform
+  \else\ifx\somestring\PSconcat
+    \pdfliteral{\gMPa1 \gMPa2 \gMPa3 \gMPa4 \gMPa5 \gMPa6 cm}\resetMPstack
+  \else\ifx\somestring\PSsetrgbcolor
+    \pdfliteral{\gMPa1 \gMPa2 \gMPa3 rg \gMPa1 \gMPa2 \gMPa3 RG}%
+    \resetMPstack
+  \else\ifx\somestring\PSsetgray \pdfliteral{\gMPa1 g \gMPa1 G}\resetMPstack
+  \else\ifx\somestring\PStranslate
+   \pdfliteral{1 0 0 1 \gMPa1 \gMPa2 cm}\resetMPstack
+  \else\ifx\somestring\PSsetdash \handleMPsetdash \resetMPstack
+  \else\ifx\somestring\PSsetlinejoin \pdfliteral{\gMPa1 j}\resetMPstack
+  \else\ifx\somestring\PSsetmiterlimit \pdfliteral{\gMPa1 M}\resetMPstack
+  \else\ifx\somestring\PSfshow \handleMPfshow \resetMPstack
+  \else\ifx\somestring\PSsetlinecap \pdfliteral{\gMPa1 J}\resetMPstack
+  \else\ifx\somestring\PSrlineto
+   \pdfliteral{\lastMPmoveX\space \lastMPmoveY\space l S}\resetMPstack
+  \else\ifx\somestring\PSscale
+   \pdfliteral{\gMPa1 0 0 \gMPa2 0 0 cm}\resetMPstack
+  \else \handleMPgraphic{#1#2}%
+ \fi\fi\fi\fi\fi\fi\fi\fi \fi\fi\fi\fi\fi\fi\fi\fi \fi
+ \handleMPsequence}
+
+% Graphics
+
+\def\handleMPendgraphic#1{\ifx\somestring\PSshowpage
+ \let\handleMPsequence=\finishMPgraphic \else
+ \setMPargument{#1}\fi}
+
+\def\handleMPbegingraphic#1{\ifx\somestring\PSBoundingBox
+  \let\handleMPsequence=\handleMPboundingbox
+ \else\ifx\somestring\PSHiResBoundingBox
+  \let\handleMPsequence=\handleMPboundingbox
+ \else\ifx\somestring\PSExactBoundingBox
+  \let\handleMPsequence=\handleMPboundingbox
+ \else\ifx\somestring\PSPage
+   \let\handleMPsequence=\handleMPpage
+ \else \setMPargument{#1}\fi\fi\fi\fi}
+
+\let\handleMPgraphic=\handleMPbegingraphic
+
+% There are three kind of bounding boxes:
+%    BoundingBox: llx lly ucx ucy
+%    HiResBoundingBox: llx lly ucx ucy
+%    ExactBoundingBox: llx lly ucx ucy
+% The dimensions are saved for later use.
+
+\def\handleMPboundingbox #1 #2 #3 #4 {\nofMParguments=0
+ \let\handleMPsequence=\dohandleMPsequence \handleMPsequence}
+
+% The page comment is a signal that stackbuilding can be started
+
+\def\handleMPpage #1 #2 {\nofMParguments=0
+ \let\handleMPsequence=\dohandleMPsequence \handleMPsequence}
+
+% METAPOST: 0 0 rlineto
+
+\def\lastMPmoveX{0}\def\lastMPmoveY{0}
+
+% Text
+
+{\catcode`\.=12 \catcode`\p=12 \catcode`\t=12
+ \gdef\WITHOUTPT#1pt{#1}}
+\def\withoutpt#1{\expandafter\WITHOUTPT#1}
+\def\ScaledPointsToBigPoints#1#2{\MPdimen=#1sp\relax
+ \MPdimen=.996264\MPdimen \edef#2{\withoutpt{\the\MPdimen}}}
+
+\def\handleMPfshow{\setbox0=\hbox{\obeyMPspecials
+  \edef\size{\gMPa{\the\nofMParguments} }%
+  \advance\nofMParguments by -1
+  \font\temp=\gMPa{\the\nofMParguments} at \size bp
+  \advance\nofMParguments by -1 \temp
+  \ifnum\nofMParguments=1 \def\do(##1){##1}\gMPa1%
+  \else \MPcounter=1
+   \def\do(##1{##1}\gMPa{\the\MPcounter}\space\def\do{}%
+   \loop \advance\MPcounter by 1
+    \ifnum\MPcounter<\nofMParguments \gMPa{\the\MPcounter}\space\repeat
+   \def\do##1){##1}\gMPa{\the\MPcounter}%
+  \fi
+  \unskip}%
+ \dimen0=\lastMPmoveY bp \advance\dimen0 by \ht0
+ \ScaledPointsToBigPoints{\number\dimen0}\lastMPmoveY
+ \pdfliteral{n q 1 0 0 1 \lastMPmoveX\space\lastMPmoveY\space cm}%
+ \dimen0=\ht0 \advance\dimen0 by \dp0 \box0 \vskip-\dimen0
+ \pdfliteral{Q}}
+
+
+% Take care of dashes
+
+\def\handleMPsetdash{\bgroup \def\somestring{[}\MPcounter=1
+   \loop \ifnum\MPcounter<\nofMParguments
+     \edef\somestring{\somestring\space\gMPa{\the\MPcounter}}%
+     \advance\MPcounter by 1 \repeat
+   \edef\somestring{\somestring]\gMPa{\the\MPcounter} d}%
+   \pdfliteral{\somestring}\egroup}
+
+% setlinewidth
+
+\def\handleMPdtransform{\ifdim\gMPa1pt>0pt
+ \pdfliteral{\gMPa1 w}%
+ \def\next##1 ##2 ##3 ##4 ##5 ##6 {\handleMPsequence}\else
+ \pdfliteral{\gMPa2 w}%
+ \def\next##1 ##2 ##3 ##4 {\handleMPsequence}\fi
+ \let\handleMPsequence=\dohandleMPsequence \resetMPstack
+ \next}
+
+% Paths, concat
+
+\def\handleMPpath{\chardef\finiMPpath=0
+ \let\closeMPpath=\relax \let\flushMPpath=\flushnormalMPpath
+ \resetMPstack \nofMPsegments=1
+ \let\handleMPsequence=\dohandleMPpath \dohandleMPpath}
+
+\def\flushnormalMPpath{\MPcounter=\nofMPsegments \nofMPsegments=1
+ \loop \expandafter\ifcase\getMPkeyword{\the\nofMPsegments}\relax
+   \pdfliteral{\gMPs1 \gMPs2 l}\or
+   \pdfliteral{\gMPs1 \gMPs2 \gMPs3 \gMPs4 \gMPs5 \gMPs6 c}\or
+   \pdfliteral{\lastMPmoveX\space \lastMPmoveY\space l S}\or
+   \edef\lastMPmoveX{\gMPs1}\edef\lastMPmoveY{\gMPs2}%
+   \pdfliteral{\lastMPmoveX\space \lastMPmoveY\space m}\fi
+  \advance\nofMPsegments by 1\relax
+  \ifnum\nofMPsegments<\MPcounter \repeat}
+
+\def\flushconcatMPpath{\MPcounter=\nofMPsegments \nofMPsegments=1
+ \loop \expandafter\ifcase\getMPkeyword{\the\nofMPsegments}\relax
+   \doMPconcat{\gMPs1}\a{\gMPs2}\b \pdfliteral{\a\space \b\space l}%
+  \or
+   \doMPconcat{\gMPs1}\a{\gMPs2}\b
+   \doMPconcat{\gMPs3}\c{\gMPs4}\d
+   \doMPconcat{\gMPs5}\e{\gMPs6}\f
+   \pdfliteral{\a\space \b\space \c\space \d\space \e\space \f\space c}%
+  \or
+   \bgroup \noMPtranslate \doMPconcat\lastMPmoveX\a\lastMPmoveY\b
+    \pdfliteral{\a\space \b\space l S}\egroup
+  \or
+   \edef\lastMPmoveX{\gMPs1}\edef\lastMPmoveY{\gMPs2}%
+   \doMPconcat\lastMPmoveX\a\lastMPmoveY\b
+   \pdfliteral{\a\space \b\space m}%
+  \fi
+  \advance\nofMPsegments by 1\relax
+  \ifnum\nofMPsegments<\MPcounter \repeat}
+
+% The transformation of the coordinates
+
+\def\MPconcatfactor{256}
+
+\def\doMPreducedimen#1 {\count0=\MPconcatfactor
+   \advance\dimen#1 \ifdim\dimen#1>0pt .5\else -.5\fi\count0
+   \divide\dimen#1 \count0\relax}
+
+\def\doMPexpanddimen#1 {\multiply\dimen#1 \MPconcatfactor\relax}
+
+\def\presetMPconcat%
+  {\dimen 0=\gMPs1 pt \doMPreducedimen 0    % r_x
+   \dimen 2=\gMPs2 pt \doMPreducedimen 2    % s_x
+   \dimen 4=\gMPs3 pt \doMPreducedimen 4    % s_y
+   \dimen 6=\gMPs4 pt \doMPreducedimen 6    % r_y
+   \dimen 8=\gMPs5 pt \doMPreducedimen 8    % t_x
+   \dimen10=\gMPs6 pt \doMPreducedimen10 }  % t_y
+
+\def\presetMPscale%
+  {\dimen 0=\gMPs1 pt \doMPreducedimen 0
+   \dimen 2=0pt
+   \dimen 4=0pt
+   \dimen 6=\gMPs2 pt \doMPreducedimen 6
+   \dimen 8=0pt
+   \dimen10=0pt }
+
+\def\noMPtranslate% use this one grouped
+  {\dimen 8=0pt                             % t_x
+   \dimen10=0pt }                           % t_y
+
+\def\doMPconcat#1#2#3#4%
+  {\dimen12=#1 pt \doMPreducedimen12        % p_x
+   \dimen14=#3 pt \doMPreducedimen14        % p_y
+   %
+   \dimen16  \dimen 0
+   \multiply \dimen16  \dimen 6
+   \dimen20  \dimen 2
+   \multiply \dimen20  \dimen 4
+   \advance  \dimen16 -\dimen20
+   %
+   \dimen18  \dimen12
+   \multiply \dimen18  \dimen 6
+   \dimen20  \dimen14
+   \multiply \dimen20  \dimen 4
+   \advance  \dimen18 -\dimen20
+   \dimen20  \dimen 4
+   \multiply \dimen20  \dimen10
+   \advance  \dimen18  \dimen20
+   \dimen20  \dimen 6
+   \multiply \dimen20  \dimen 8
+   \advance  \dimen18 -\dimen20
+   %
+   \multiply \dimen12 -\dimen 2
+   \multiply \dimen14  \dimen 0
+   \advance  \dimen12  \dimen14
+   \dimen20  \dimen 2
+   \multiply \dimen20  \dimen 8
+   \advance  \dimen12  \dimen20
+   \dimen20  \dimen 0
+   \multiply \dimen20  \dimen10
+   \advance  \dimen12 -\dimen20
+   %
+   \doMPreducedimen16
+   \divide   \dimen18  \dimen16 \doMPexpanddimen18
+   \divide   \dimen12  \dimen16 \doMPexpanddimen12
+   %
+   \edef#2{\withoutpt{\the\dimen18}}%       % p_x^\prime
+   \edef#4{\withoutpt{\the\dimen12}}}       % p_y^\prime
+
+\def\processMPpath{\flushMPpath \closeMPpath
+   \pdfliteral{\ifcase\finiMPpath W n\or S\or f\or B\fi}%
+   \let\handleMPsequence=\dohandleMPsequence
+   \resetMPstack \nofMPsegments=0 \handleMPsequence}
+
+\def\handleMPpathconcat{\presetMPconcat
+ \pdfliteral{\gMPs1 \gMPs2 \gMPs3 \gMPs4 \gMPs5 \gMPs6 cm}%
+ \resetMPstack}
+
+\def\handleMPpathscale{\presetMPscale
+   \pdfliteral{\gMPs1 0 0 \gMPs2 0 0 cm}\resetMPstack}
+
+\def\dohandleMPpath#1#2 {\ifnum\lccode`#1=0 \setMPargument{#1#2}%
+ \else \def\somestring{#1#2}\ifx\somestring\PSlineto \setMPkeyword0
+ \else\ifx\somestring\PScurveto \setMPkeyword1
+ \else\ifx\somestring\PSrlineto \setMPkeyword2
+ \else\ifx\somestring\PSmoveto \setMPkeyword3
+ \else\ifx\somestring\PSclip \let\handleMPsequence=\processMPpath
+ \else\ifx\somestring\PSgsave \chardef\finiMPpath=3
+ \else\ifx\somestring\PSgrestore
+ \else\ifx\somestring\PSfill
+  \ifnum\finiMPpath=0
+   \chardef\finiMPpath=2 \let\handleMPsequence=\processMPpath \fi
+ \else\ifx\somestring\PSstroke
+  \ifnum\finiMPpath=0 \chardef\finiMPpath=1 \fi
+  \let\handleMPsequence=\processMPpath
+ \else\ifx\somestring\PSclosepath \def\closeMPpath{\pdfliteral{h}}%
+ \else\ifx\somestring\PSconcat
+  \let\flushMPpath=\flushconcatMPpath \handleMPpathconcat
+ \else\ifx\somestring\PSscale
+  \let\flushMPpath\flushconcatMPpath \handleMPpathscale
+ \fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi
+ \handleMPsequence}
+
+% The main conversion command
+
+\def\MPtoPDF#1{\bgroup
+ \setMPspecials\startMPscanning\def\do{}%
+ \setbox0=\vbox\bgroup
+  \parskip=0pt \leftskip=0pt \parindent=0pt \everypar{}\offinterlineskip
+  \pdfliteral{q}\let\handleMPsequence=\dohandleMPsequence
+  \input #1 \relax}
+
+\def\finishMPgraphic{\pdfliteral{Q}\egroup\box0\egroup}
+
+\endinput

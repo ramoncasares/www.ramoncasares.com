@@ -1,0 +1,42 @@
+h1 {
+   color: #004080;
+   text-align: center;
+}
+
+h2 {
+   color: #004080;
+   /* margin-top: 50px; */
+}
+
+h3 {
+   color: #004080;
+   /* margin-top: 25px; */
+}
+
+#license {
+   color: #808080;
+   text-align: center;
+}
+
+
+#license a:link {
+    color: #909000;
+}
+
+#license a:visited {
+    color: #C0C000;
+}
+
+#ending {
+   color: #C0C0C0;
+   text-align: center;
+}
+
+#ending a:link {
+    color: #C0C000;
+}
+
+#ending a:visited {
+    color: #909000;
+}
+

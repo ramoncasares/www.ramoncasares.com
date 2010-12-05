@@ -1,0 +1,301 @@
+% DELAY.MF (RMCG19950405)
+
+%    DELAY.MF delays the actual drawing till the endchar;
+%    Copyright (C) 2003 Ram\'on Casares
+%
+%    This program is free software; you can redistribute it and/or modify
+%    it under the terms of the GNU General Public License as published by
+%    the Free Software Foundation; either version 2 of the License, or
+%    (at your option) any later version.
+%
+%    This program is distributed in the hope that it will be useful,
+%    but WITHOUT ANY WARRANTY; without even the implied warranty of
+%    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+%    GNU General Public License for more details.
+%
+%    You should have received a copy of the GNU General Public License
+%    along with this program; if not, write to the
+%       Free Software Foundation, Inc.,
+%       59 Temple Place, Suite 330,
+%       Boston, MA  02111-1307  USA
+
+def clear_del =
+ save _dn, _del; _dn := 0; string _del[];
+enddef;
+
+def make_del =
+ for k := 1 upto _dn: scantokens _del[k]; endfor
+enddef;
+
+extra_beginchar := extra_beginchar & "clear_del;";
+extra_endchar := "make_del;" & extra_endchar;
+
+def MTlabel(suffix i)(expr v,h,add,wd,ht,dp) =
+ x.i.l = x.i if h="c": - wd/2 elseif h="r": - wd fi;
+ y.i.t = y.i if v="c": + ht/2 elseif v="b": + ht fi;
+ x.i.r = x.i.l + wd; y.i.b = y.i.t - ht - dp;
+ if not (add=""): _del[incr _dn] := "_delete(" & str i & ");"; fi
+ _del[incr _dn] := "_pos(" & str i & ");";
+enddef;
+
+def _delete(suffix i) = erase fill (x.i.l,y.i.t) --
+ (x.i.l,y.i.b) -- (x.i.r,y.i.b) -- (x.i.r,y.i.t) -- cycle;
+enddef;
+
+def _pos(suffix i) =
+ message"\MTloglabel"; show x\i/pt; show y\i/pt; message"";
+enddef;
+
+pickup pencircle scaled 0.4pt; thin_pen:=savepen;
+pickup pencircle scaled 0.8pt; med_pen:=savepen;
+pickup pencircle scaled 1.2pt; thick_pen:=savepen;
+
+def thinpen = pickup thin_pen;
+ _del[incr _dn] := "pickup thin_pen;";
+enddef;
+
+def medpen = pickup med_pen;
+ _del[incr _dn] := "pickup med_pen;";
+enddef;
+
+def thickpen = pickup thick_pen;
+ _del[incr _dn] := "pickup thick_pen;";
+enddef;
+
+def rectangle(suffix s)(expr width,height) =
+ x.s.l = x.s - width/2;   x.s.r = x.s + width/2;
+ y.s.t = y.s + height/2;  y.s.b = y.s - height/2;
+ _del[incr _dn] := "_rectangle(" & str s & ");";
+enddef;
+
+def _rectangle(suffix s) =
+ draw (x.s.l,y.s.b) -- (x.s.r,y.s.b) --
+  (x.s.r,y.s.t) -- (x.s.l,y.s.t) -- cycle;
+enddef;
+
+def square(suffix s)(expr side) =
+ x.s.l = x.s - side/2;  x.s.r = x.s + side/2;
+ y.s.t = y.s + side/2;  y.s.b = y.s - side/2;
+ _del[incr _dn] := "_square(" & str s & ");";
+enddef;
+
+def _square(suffix s) =
+ draw (x.s.l,y.s.b) -- (x.s.r,y.s.b) --
+  (x.s.r,y.s.t) -- (x.s.l,y.s.t) -- cycle;
+enddef;
+
+def ellipse(suffix s)(expr width,height) =
+ x.s.l = x.s - width/2;   x.s.r = x.s + width/2;
+ y.s.t = y.s + height/2;  y.s.b = y.s - height/2;
+ _del[incr _dn] := "_ellipse(" & str s & ");";
+enddef;
+
+def _ellipse(suffix s) =
+ draw (fullcircle xscaled (x.s.r - x.s.l) yscaled (y.s.t - y.s.b)
+  shifted z.s);
+enddef;
+
+def circle(suffix s)(expr diameter) =
+ x.s.l = x.s - diameter/2;  x.s.r = x.s + diameter/2;
+ y.s.t = y.s + diameter/2;  y.s.b = y.s - diameter/2;
+ _del[incr _dn] := "_circle(" & str s & ");";
+enddef;
+
+def _circle(suffix s) =
+ draw (fullcircle scaled (x.s.r - x.s.l) shifted z.s);
+enddef;
+
+def oval(suffix s)(expr width,height,superness) =
+ x.s.l = x.s - width/2;   x.s.r = x.s + width/2;
+ y.s.t = y.s + height/2;  y.s.b = y.s - height/2;
+ x.s.ness = superness;
+ _del[incr _dn] := "_oval(" & str s & ");";
+enddef;
+
+def _oval(suffix s) =
+ draw superellipse((x.s.r,y.s),(x.s,y.s.t),(x.s.l,y.s),(x.s,y.s.b),
+                   x.s.ness);
+enddef;
+
+def triangle(suffix s)(expr width,height) =
+ x.s.l = x.s - width/2;   x.s.r = x.s + width/2;
+ y.s.t = y.s + height/2;  y.s.b = y.s - height/2;
+ _del[incr _dn] := "_triangle(" & str s & ");";
+enddef;
+
+def _triangle(suffix s) =
+ draw (x.s.l,y.s.b) -- (x.s.r,y.s.b) -- (x.s,y.s.t) -- cycle;
+enddef;
+
+def lozenge(suffix s)(expr width,height) =
+ x.s.l = x.s - width/2;   x.s.r = x.s + width/2;
+ y.s.t = y.s + height/2;  y.s.b = y.s - height/2;
+ _del[incr _dn] := "_lozenge(" & str s & ");";
+enddef;
+
+def _lozenge(suffix s) =
+ draw (x.s.l,y.s) -- (x.s,y.s.b) --
+  (x.s.r,y.s) -- (x.s,y.s.t) -- cycle;
+enddef;
+
+dot_diameter := 2.4pt;
+
+def dot(suffix s) =
+ x.s.dd = dot_diameter;
+ _del[incr _dn] := "_dot(" & str s & ");";
+enddef;
+
+def _dot(suffix s) =
+ fill fullcircle scaled x.s.dd shifted z.s;
+enddef;
+
+def line(suffix s) =
+ _del[incr _dn] := "_line(" & str s & ");";
+enddef;
+
+def _line(suffix s) =
+ draw z.s.o -- z.s.d;
+enddef;
+
+dash_length := 4pt;
+
+def dottedline(suffix s) =
+ x.s.dl = dash_length;  x.s.dd = dot_diameter;
+ _del[incr _dn] := "_dottedline(" & str s & ");";
+enddef;
+
+def _dottedline(suffix s) =
+ begingroup save p, n;
+ path p; p = z.s.o -- z.s.d;
+ n := floor(length(z.s.d-z.s.o)/abs(x.s.dl));
+ for i := 0 upto n:
+  fill fullcircle scaled x.s.dd shifted (point i/n of p);
+ endfor endgroup
+enddef;
+
+def dashedline(suffix s) =
+ x.s.dl = dash_length;
+ _del[incr _dn] := "_dashedline(" & str s & ");";
+enddef;
+
+def _dashedline(suffix s) =
+ begingroup save p, n;
+ path p; p = z.s.o -- z.s.d;
+ n := floor(length(z.s.d-z.s.o)/abs(x.s.dl));
+ if not (odd n): n := n + 1; fi
+ for i := 0 upto (n-1): if not (odd i):
+  draw subpath(i/n,(i+1)/n) of p;
+ fi endfor endgroup
+enddef;
+
+arrow_head_length := 6pt;
+arrow_head_width := 2.4pt;
+
+def arrowhead(suffix s) =
+ x.s.ahl = arrow_head_length;  x.s.ahw = arrow_head_width;
+ _del[incr _dn] := "_arrowhead(" & str s & ");";
+enddef;
+
+def _arrowhead(suffix s) =
+ z.s.dh = (x.s.ahl/length(z.s.d-z.s.o))[z.s.d,z.s.o];
+ z.s.dr = z.s.dh + x.s.ahw / 2 * dir(angle(z.s.d-z.s.o)+90);
+ z.s.dl = z.s.dh + x.s.ahw / 2 * dir(angle(z.s.d-z.s.o)-90);
+ fill z.s.d -- z.s.dr -- z.s.dl -- cycle;
+enddef;
+
+def arrow(suffix s) =
+ arrowhead(s);
+ _del[incr _dn] := "_arrow(" & str s & ");";
+enddef;
+
+def _arrow(suffix s) =
+ draw z.s.o .. z.s.dh;
+enddef;
+
+def cillinder(suffix s)(expr width,height) =
+ x.s.l = x.s - 1/2width;   x.s.r = x.s + 1/2width;
+ y.s.b = y.s - 1/2height;  y.s.t = y.s + 1/2height;
+ y.s.ar = 1/6height;
+ _del[incr _dn] := "_cillinder(" & str s & ");";
+enddef;
+
+def _cillinder(suffix s) =
+ draw (x.s.l,y.s.t-y.s.ar) -- (x.s.l,y.s.b+y.s.ar);
+ draw (x.s.r,y.s.t-y.s.ar) -- (x.s.r,y.s.b+y.s.ar);
+ draw (x.s.l,y.s.b+y.s.ar){down} .. (x.s,y.s.b){right}
+      .. (x.s.r,y.s.b+y.s.ar){up};
+ draw (x.s.l,y.s.t-y.s.ar){down} .. (x.s,y.s.t-2y.s.ar){right}
+      .. (x.s.r,y.s.t-y.s.ar){up} .. (x.s,y.s.t){left} .. cycle;
+enddef;
+
+join_radius := 5pt;
+
+def box(suffix s)(expr width,height) =
+ x.s.l = x.s - width/2;   x.s.r = x.s + width/2;
+ y.s.t = y.s + height/2;  y.s.b = y.s - height/2;
+ x.s.jr = join_radius;
+ _del[incr _dn] := "_box(" & str s & ");";
+enddef;
+
+def _box(suffix s) =
+ if min((x.s.r-x.s.l),(y.s.t-y.s.b)) > 2x.s.jr:
+  draw (((x.s,y.s.b) .. (x.s.r,y.s.b)) softjoin
+      ((x.s.r,y.s.b) .. (x.s.r,y.s.t)) softjoin
+      ((x.s.r,y.s.t) .. (x.s.l,y.s.t)) softjoin
+      ((x.s.l,y.s.t) .. (x.s.l,y.s.b)) softjoin
+      ((x.s.l,y.s.b) .. (x.s,y.s.b)));
+ else:
+  draw (fullcircle xscaled (x.s.r-x.s.l) yscaled (y.s.t-y.s.b)
+   shifted z.s);
+ fi
+enddef;
+
+def soft(suffix s) =
+ _del[incr _dn] := "_soft(" & str s & ");";
+enddef;
+
+def _soft(suffix s) =
+ draw (z.s.o -- z.s.m) softjoin (z.s.m -- z.s.d);
+enddef;
+
+def softt(suffix s) =
+ _del[incr _dn] := "_softt(" & str s & ");";
+enddef;
+
+def _softt(suffix s) =
+ draw ((z.s.o .. z.s.m1) softjoin
+      (z.s.m1 .. z.s.m2) softjoin (z.s.m2 .. z.s.d));
+enddef;
+
+def fork(suffix s) =
+ z.s.head.o = z.s.m; z.s.head.d = z.s.d;
+ arrowhead(s.head);
+ dot(s.o);
+ z.s.body.o = z.s.o; z.s.body.m = z.s.m;
+ z.s.body.d = z.s.head.dh;
+ soft(s.body);
+enddef;
+
+def darrow(suffix s) =
+ z.s.med = 1/2[z.s.o,z.s.d];
+ z.s.one.o = z.s.med; z.s.one.d = z.s.d;
+ arrow(s.one);
+ z.s.two.o = z.s.med; z.s.two.d = z.s.o;
+ arrow(s.two);
+enddef;
+
+def arroww(suffix s) =
+ z.s.head.o = z.s.m; z.s.head.d = z.s.d;
+ arrowhead(s.head);
+ z.s.body.o = z.s.o; z.s.body.m = z.s.m;
+ z.s.body.d = z.s.head.dh;
+ soft(s.body);
+enddef;
+
+def arrowww(suffix s) =
+ z.s.head.o = z.s.m2; z.s.head.d = z.s.d;
+ arrowhead(s.head);
+ z.s.body.o = z.s.o; z.s.body.m1 = z.s.m1;
+ z.s.body.m2 = z.s.m2; z.s.body.d = z.s.head.dh;
+ softt(s.body);
+enddef;

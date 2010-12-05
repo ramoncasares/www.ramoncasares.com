@@ -1,0 +1,85 @@
+% SHADOW.TEX (RMCG19950401)
+
+\ifx\MT\undefined \input metatex \fi
+\ifx\framebox\undefined \input frame \fi
+
+\let\TMline=\MTline
+
+\catcode`\@=11
+
+\newdimen\shadowdim \shadowdim=0.3pt % for 600dpi; try 0.85 for 300dpi
+
+\TMline{\% Defined by SHADOW.TEX}
+\TMline{}
+\TMline{ if unknown prologues: font_size 12pt\#; fi}
+\TMline{}
+\TMline{ def shadowall(expr dist) =}
+\TMline{  begingroup}
+\TMline{  save u,v,distx,disty,zbase,zcur;}
+\TMline{  pair zbase,zcur;}
+\TMline{  u := floor(w/dist); if odd u: u := u + 1; fi distx = w/u;}
+\TMline{  v := floor(h/dist); if odd v: v := v + 1; fi disty = h/v;}
+\TMline{  zbase := (1/2distx,1/2disty);}
+\TMline{  for i := 0 upto (u-1):}
+\TMline{   zcur := zbase if odd i: + (0,disty) fi;}
+\TMline{   for j := 0 upto (v-1): if (not odd(i+j)):}
+\TMline{    addto currentpicture contour unitsquare shifted zcur;}
+\TMline{    zcur := zcur + (0,2disty);}
+\TMline{   fi endfor}
+\TMline{   zbase := zbase + (distx,0);}
+\TMline{  endfor}
+\TMline{  endgroup;}
+\TMline{ enddef;}
+\TMline{}
+
+\def\shadowbox{\afterassignment\sh@dowbox\count@=}
+\def\sh@dowbox{\ifvoid\count@ \let\next=\relax \else
+ \shadowchar
+ \ifMTmf \let\next=\MTsh@dow \else
+ \ifx\pdfliteral\undefined  \let\next=\PSsh@dow  \else
+ \let\next=\ACsh@dow \fi \fi \fi
+ \next}
+
+\def\shadowchar{\bgroup
+ \dimen0=\wd\count@ \dimen2=\ht\count@ \advance\dimen2\dp\count@
+ \dimen4=16pt \count2=\dimen4
+ \count0=\dimen0 \divide\count0 by \count2 \advance\count0 by 1
+ \dimen4=\dimen0 \divide\dimen4 by \count0
+ \count0=\dimen2 \divide\count0 by \count2 \advance\count0 by 1
+ \dimen6=\dimen2 \divide\dimen6 by \count0
+ \setbox0=\box\MTbox
+ \MTbeginchar(\the\dimen4,\the\dimen6,0pt);%
+  \MTline{ shadowall(\the\shadowdim);}%
+ \MTendchar;%
+ \global\setbox\@uxbox=\vtop to \dimen2{\cleaders
+  \hbox to \dimen0{\cleaders\box\MTbox\hfil}\vfil}%
+ \global\setbox\MTbox=\box0 \egroup}
+
+\def\MTsh@dow{\wd\@uxbox=0pt \ht\@uxbox=0pt \dp\@uxbox=0pt
+ \ifhbox\count@
+  \setbox\count@=\hbox{\raise\ht\count@\box\@uxbox\box\count@}\else
+  \setbox\count@=\vbox{\box\@uxbox\nointerlineskip\box\count@}\fi}
+
+\def\PSsh@dow{\ifhbox\count@
+ \setbox\count@=\hbox{\special{ps:gsave 0.8 setgray}%
+  \rlap{\vrule width \wd\count@ height \ht\count@ depth \dp\count@}%
+  \special{ps:0 setgray grestore}%
+  \unhbox\count@}\else
+ \setbox\count@=\vbox{\special{ps:gsave 0.8 setgray}
+  \vtop to 0pt{\vbox to 0pt{
+    \hrule width \wd\count@ height \ht\count@ depth \dp\count@
+   \vss}\vss}
+  \special{ps:0 setgray grestore}
+  \nointerlineskip
+  \unvbox\count@}\fi}
+
+\def\ACsh@dow{\ifhbox\count@
+ \setbox\count@=\hbox{\pdfliteral{q 0.8 g}%
+  \rlap{\vrule width \wd\count@ height \ht\count@ depth \dp\count@}%
+  \pdfliteral{0 g Q}\unhbox\count@}\else
+ \setbox\count@=\vbox{\pdfliteral{q 0.8 g}
+  \vtop to 0pt{\vbox to 0pt{
+    \hrule width \wd\count@ height \ht\count@ depth \dp\count@
+   \vss}\vss}\pdfliteral{0 g Q}\nointerlineskip\unvbox\count@}\fi}
+
+\catcode`\@=12

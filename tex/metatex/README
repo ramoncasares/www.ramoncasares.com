@@ -1,0 +1,92 @@
+
+\title METATeX
+
+\section What is METATeX?
+
+METATeX is a set of plain TeX and METAFONT macros that you can use to
+define both the text and the figures in a single source file. Because
+METATeX sets up two way communication, from TeX to METAFONT and back
+from METAFONT to TeX, drawing dimensions can be controlled by TeX and
+labels can be located by METAFONT. Only standard features of TeX and
+METAFONT are used, but two runs of TeX and one of METAFONT are needed.
+
+
+\section How to use METATeX?
+
+Please read the TUGboat paper on METATeX to get an explanation. The
+paper is provided here in pdf format (mtpaper.pdf). To recreate yourself
+the paper, you will need the plain TUGboat style files (tugboat.cmn and
+tugboat.sty), in addition to the sources located in the mtpaper subdir
+(mtpaper.tex, delay.mf, diagram.tex, frame.tex and shadow.tex).
+
+The original TUGboat paper on METATeX is:
+
+"METATeX" by Ram\'on Casares.
+   TUGboat (ISSN 0896-3207)
+   Volume 23, Number 3/4, pp. 313-318, 2002.
+
+It is also available on-line:
+   http://www.tug.org/TUGboat/Articles/tb23-3-4/tb75casa.pdf
+
+
+\section Where to find METATeX?
+
+The home of METATeX is CTAN:
+
+   http://www.ctan.org/tex-archive/macros/plain/contrib/metatex/
+
+
+\section Bugs and comments
+
+Please address your comments and bug reports to (change # by @):
+
+   r.casares#computer.org
+
+I do not promise anything.
+
+
+\section Files
+
+METATeX comprises the following files:
+
+   metatex.tex
+   mtmp2pdf.tex
+   mtpaper.pdf
+   mtpaper/mtpaper.tex
+   mtpaper/delay.mf
+   mtpaper/diagram.tex
+   mtpaper/frame.tex
+   mtpaper/shadow.tex
+   README
+   gpl.txt
+
+
+\section License
+
+  METATeX.TeX communicates TeX and METAFONT
+  Copyright (C) 2003, 2004  Ram\'on Casares
+
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation; either version 2 of the License, or
+  (at your option) any later version.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with this program; if not, write to the
+     Free Software Foundation, Inc.,
+     59 Temple Place, Suite 330,
+     Boston, MA  02111-1307  USA
+
+
+\section Versions
+
+  1.1 Date 2004.08.12. File mptopdf.tex renamed to mtmp2pdf.tex.
+  1.0 Date 2003.10.15. The first public version.
+
+
+\bye

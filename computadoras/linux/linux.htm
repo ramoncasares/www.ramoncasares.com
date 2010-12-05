@@ -1,0 +1,105 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Ramón Casares / Linux</title>
+<link rel="stylesheet" type="text/css" href="../../rmcg.css" />
+
+<meta name="robots" content="index,follow,archive"> 
+<meta name="description" http-equiv="description" content="linux"> 
+<meta name="keywords" http-equiv="keywords"
+      content="debian,pxe,smb,intel dot station,ramon casares"> 
+
+</head>
+
+<body>
+
+<h1>Linux</h1>
+
+<hr />
+
+<h2>Objeto</h2>
+
+<p>Esta página contiene asuntos relacionados con el sistema operativo Linux.
+Yo uso Gnu/Linux <a href="http://www.debian.org/">Debian</a>.</p>
+
+<hr />
+
+<p><a href="../../home.htm">Pulsa aquí
+para volver a la página principal</a></p>
+
+<hr />
+
+
+<h2>RAMon5</h2>
+
+<p>Son varios proyectos relacionados.
+El objetivo final es crear una imagen arrancable
+con varios sistemas operativos, siendo uno de ellos, SciTeX,
+una micro-distribución linux creada <em>from scratch</em> 
+por nosotros mismos.</p> 
+
+<p>Una imagen es un fichero que se puede copiar, bit a bit,
+en un dispositivo, ya sea un CD (imagen tipo CD),
+ya sea un disco duro, una memoria SD, o una llave de memoria USB (imagen tipo HD).
+Contiene particiones, dentro de ellas sistemas de ficheros,
+y dentro de ellos directorios y ficheros.
+Las imágenes arrancables contienen un MBR (Master Boot Record),
+un gestor de arranque, y, al menos, una partición.</p>
+
+<p>Todo sistema operativo consta de tres elementos fundamentales:
+<ul>
+<li>un sistema de arranque, MBR + gestor, (en inglés <em>booter</em>),</li>
+<li>un núcleo (en inglés <em>kernel</em>) y</li>
+<li>un sistema de ficheros (en inglés <em>file system</em>, abreviado fs).</li>
+</ul>
+El booter tiene la tarea de arrancar la computadora,
+cargando el kernel en la memoria y pasandole el control.
+El kernel es el programa básico que controla la máquina,
+haciendo que su hardware sea accesible y utilizable por el software.
+En el caso de linux, el primer proceso que ejecuta el kernel
+lo obtiene de un fichero denominado <code>init</code>, que se encuentra en
+el sistema de ficheros.
+Este es el primer fichero que necesitara nuestro file system,
+pero no será, ni mucho menos, el único.
+</p>
+
+<p>Para facilitar la tarea de construcción de la distribución,
+la hemos partido en sus tres elementos:
+<ul>
+<li>La creación de imágenes arrancables,
+    con su <em>booter</em>, en este caso SysLinux, se explica en el documento
+    <a href="imaging.pdf">Imaging</a>.</li>
+<li>La creación de un <em>kernel</em> linux para el AA1 se explica en el documento
+    <a href="kernel-AA1.pdf">Kernel</a>.</li>
+<li>La creación de un <em>sistema de ficheros</em> mínimo se explica en el documento
+    <a href="scitex.pdf">SciTeX</a>.</li>
+</ul>
+</p>
+
+<p>El documento <a href="ramon5.pdf">Ramon5</a> explica cómo usar
+Imaging para obtener una imagen arrancable 
+con un menú para poder elegir entre varias distribuciones: 
+ <ul>
+   <li>Puppy Linux</li>
+   <li>Slitaz</li>
+   <li>GeeXboX</li>
+   <li><a href="freedos.pdf">FreeDOS</a></li>
+   <li>SciTeX</li> 
+ </ul>
+</p>
+
+
+
+
+
+
+<hr />
+
+<div id="ending">
+<p>Última actualización: <strong>28-noviembre-2010</strong>.</p>
+<p>© Ramón Casares 2006-2010</p>
+</div>
+
+</body>
+</html>
