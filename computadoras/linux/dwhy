@@ -1,0 +1,133 @@
+#!/bin/dash
+
+# dwhy by www.ramoncasares.com 2011
+# License: GPL
+# Version: 0.1 (20110323)
+
+dwhy () {
+if test "[$1]" = "[]" ; then
+   echo "Enter: dwhy filename"
+   echo "       to let Debian explain why filename is in your system"
+   exit 1
+fi
+
+if test -e "$1" ; then
+   TARGET="$(readlink -f "$1")"
+   if test -L "$1" ; then
+      echo "$1 -> $TARGET"
+   fi
+else
+   FIRSTTARGET="$(which "$1")"
+   TARGET="$(readlink -f "$FIRSTTARGET")"
+   if test -L "$FIRSTTARGET" ; then
+      echo "$1 -> $FIRSTTARGET -> $TARGET"
+   else
+      if test "[$TARGET]" != "[]" ; then
+         echo "$1 -> $TARGET"
+      fi
+   fi
+fi
+
+if test "[$TARGET]" = "[]" ; then
+   if test "[$(apt-cache -n search "^$1$")]" = "[]" ; then
+      echo "$1: file not found, and it is not a package."
+      exit 2
+   else
+      echo "$1: file not found, try as package"
+      PACKAGES=$1
+   fi
+else
+   file "$TARGET"
+fi
+
+if test "[$PACKAGES]" = "[]" ; then
+   PACKAGES=$(dpkg-query --search "$TARGET" | cut -d: -f1 | sed s/,//g)
+fi
+
+if test "[$PACKAGES]" = "[]" ; then
+   echo "$TARGET is not in a Debian package"
+else
+ for PACKAGE in $PACKAGES ; do
+   DFILE=$(apt-cache show "$PACKAGE" | grep "^Filename: " | cut -d' ' -f2)
+   PRIORITY=$(dpkg-query -W -f='${Priority}' $PACKAGE)
+   echo "Package: $DFILE [$PRIORITY]"
+   dtree $PACKAGE
+ done
+fi
+
+exit 0
+}
+
+dtasks () {
+   if test "[$ITASKS]" = "[]" ; then
+      ITASKS=$(tasksel --list-tasks | grep "^i" | sed 's/^i \([^\t]*\).*/\1/')
+   fi
+   TASKS=""
+   for TASK in $ITASKS
+   do
+      if test "$(aptitude search "$1~t$TASK")" != "" ; then
+         TASKS="$TASKS $TASK"
+      fi
+   done
+}
+
+dtree () {
+if test $# = 0 ; then
+   echo "Enter: dtree package1 package2 ..."
+   echo "       to draw the tree of packages and tasks of package1 ..."
+   return 1
+fi
+
+for PACKAGE in $@ ; do
+   PRIORITY=$(dpkg-query -W -f='${Priority}' $PACKAGE)
+   SEARCH="$(aptitude search "^$PACKAGE$")"
+   if test "[$(echo "$SEARCH" | cut -c1)]" = "[i]"
+   then
+      if test "[$(echo "$SEARCH" | cut -c3)]" = "[A]" ; then
+         STATUS="A"
+      else
+         STATUS="M"
+      fi
+   else
+       STATUS="X"
+   fi
+   echo -n " $PACKAGE ($STATUS)"
+   if test "$PRIORITY" = required -o "$PRIORITY" = important ; then
+      echo " <- base system (D)"
+   else
+      if test "$PRIORITY" = standard ; then
+         echo " <- standard system (D)"
+      else
+         if test "$STATUS" = "M" ; then
+            dtasks "$PACKAGE"
+            if test "[$TASKS]" != "[]" ; then
+               echo -n " <-"
+               echo "$TASKS (T)"
+            else
+               echo ""
+            fi
+         else
+            RPKGS=$(apt-get -qq -s remove "$PACKAGE" \
+                    | grep "^Remv" | cut -d' ' -f2 \
+                    | grep -vx "$PACKAGE")
+            if test $(echo "$RPKGS" | wc -w) -eq 0 ; then
+               echo ""
+            elif test $(echo "$RPKGS" | wc -w) -eq 1 ; then
+               echo -n " <-"
+               dtree $RPKGS
+            else
+               echo -n " <- "
+               echo "$RPKGS" | tr "\n" " "
+               echo ""
+               dtree $(echo $RPKGS | tr "\n" " ")
+            fi
+         fi
+      fi
+   fi
+done
+
+return 0
+}
+
+dwhy $@
+
