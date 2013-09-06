@@ -31,6 +31,60 @@ para volver a la página principal</a></p>
 <hr />
 
 
+<h2>El sistema de ficheros <code>gitfs</code></h2>
+
+<p>El proyecto <code>gitfs</code>
+permite explorar un repositorio git como si fuera un sistema de ficheros.
+El proyecto lo arrancó Mitchell Blank Jr,
+y Tomas "wereHamster" Carnecky lo condensó.
+Yo he tomado la versión de Tomas y he ampliado sus capacidades.</p>
+
+<p>Mejoras:
+<ul>
+<li>No es necesario parchear las fuentes de git.</li>
+<li>Todos los ficheros y directorios tienen fecha
+    (la del <em>commit</em> en el que cada uno se encuentra).</li>
+<li>Todos los bits de escritura están a 0 (porque es <code>ro</code>).</li>
+<li>En el punto de montaje se muestra: <code>HEAD</code>,
+    todas las <em>tags</em>, y todas las <em>branches</em>.</li>
+<li>Puede usar cualquier referencia, aunque usando
+    los dos puntos(<code>:</code>) en vez del <em>slash</em> (<code>/</code>);
+    por ejemplo <code>origin:master</code>.</li>
+<li>Al mostrar el <code>tree</code> de un <code>commit</code>, además
+    de mostrar los directorios actual (<code>.</code>) y superior (<code>..</code>),
+    muestra los <em>parents</em> (<code>^</code>, si tiene uno;
+    <code>^1</code>, <code>^2</code>, etc., si son más),</li>
+<li>Reporta el <code>sha1</code> de todos los objetos tipo <code>tree</code> y
+    tipo <code>blob</code>, y el del objeto <code>commit</code> en el que
+    se encuentran, en dos atributos extendidos: <code>user.sha1</code> y
+    <code>user.commit</code>.</li>
+<li>He escrito un <code>README</code> para explicar cómo compilar
+    y usar <code>gitfs</code>.
+</ul>
+</p>
+
+<p>Si se monta el repositorio git en <code>/mnt/fuse</code>,
+entonces <code>gitfs</code> se encarga de tratar el <em>path</em>
+<code>/mnt/fuse/commit-ish/tree/blob</code>.
+En el <code>commit-ish</code> puede utilizarse cualquier
+<a href="https://www.kernel.org/pub/software/scm/git/docs/gitrevisions.html">revisión</a>
+que no use los dos puntos (<code>:</code>).
+Además, el <code>commit-ish</code> anexiona por la derecha
+las secuencias <code>(/[~^][~^0-9]*)*</code> que se encuentre,
+de modo que, por ejemplo, el <em>path</em>
+<code>/mnt/fuse/origin:master/^/^/src/main.c</code>
+apunta al <code>blob</code> <code>src/main.c</code> de la
+revisión <code>origin/master^^</code>.
+</p>
+
+<p>Enlace:
+<ul>
+<li>El proyecto está en
+<a href="https://github.com/ramoncasares/gitfs">github</a>.</li>
+</ul>
+</p>
+
+
 <h2>Tell me why, <code>dwhy</code></h2>
 
 <p>El <code>dwhy</code> es un <em>script</em> <code>dash</code>
@@ -127,7 +181,7 @@ con un menú para poder elegir entre varias distribuciones:
 <hr />
 
 <div id="ending">
-<p>Última actualización: <strong>2013.06.24</strong>.</p>
+<p>Última actualización: <strong>2013.09.06</strong>.</p>
 <p>© Ramón Casares 2006-2013</p>
 </div>
 
