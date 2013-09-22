@@ -54,6 +54,8 @@ Yo he tomado la versión de Tomas y he ampliado sus capacidades.</p>
     de mostrar los directorios actual (<code>.</code>) y superior (<code>..</code>),
     muestra los <em>parents</em> (<code>^</code>, si tiene uno;
     <code>^1</code>, <code>^2</code>, etc., si son más),</li>
+<li>Acepta el prefijo <code>_</code> para referirse a
+    rangos de <em>commits</em>.</li>
 <li>Reporta el <code>sha1</code> de todos los objetos tipo <code>tree</code> y
     tipo <code>blob</code>, y el del objeto <code>commit</code> en el que
     se encuentran, en dos atributos extendidos: <code>user.sha1</code> y
@@ -67,14 +69,27 @@ Yo he tomado la versión de Tomas y he ampliado sus capacidades.</p>
 entonces <code>gitfs</code> se encarga de tratar el <em>path</em>
 <code>/mnt/fuse/commit-ish/tree/blob</code>.
 En el <code>commit-ish</code> puede utilizarse cualquier
-<a href="https://www.kernel.org/pub/software/scm/git/docs/gitrevisions.html">revisión</a>
-que no use los dos puntos (<code>:</code>).
+<a href="https://www.kernel.org/pub/software/scm/git/docs/gitrevisions.html">revisión</a>,
+o <em>rev</em>, que no use los dos puntos (<code>:</code>).
 Además, el <code>commit-ish</code> anexiona por la derecha
 las secuencias <code>(/[~^][~^0-9]*)*</code> que se encuentre,
 de modo que, por ejemplo, el <em>path</em>
 <code>/mnt/fuse/origin:master/^/^/src/main.c</code>
 apunta al <code>blob</code> <code>src/main.c</code> de la
 revisión <code>origin/master^^</code>.
+</p>
+
+<p>Usando el prefijo <code>_</code> se pueden revisar rangos de revisiones:
+el <em>path</em> <code>/mnt/fuse/_range</code> es un directorio que contiene
+una entrada con un enlace a cada uno de los <em>commits</em> de dicho <code>range</code>.
+Además, el directorio <code>/mnt/fuse/_</code> muestra, otra vez,
+<code>HEAD</code>, todas las <em>tags</em>, y todas las <em>branches</em>,
+pero, aquí, la entrada <code>/mnt/fuse/_/commit-ish</code>
+es un enlace a <code>/mnt/fuse/_commit-ish</code>, que, en este caso,
+al ser el <code>range</code> una simple <em>rev</em>,
+muestra un directorio con un enlace a cada uno de los <em>commits</em>
+que se pueden alcanzar desde dicho <code>commit-ish</code>,
+esto es, muestra todos sus ancestros.
 </p>
 
 <p>Enlace:
@@ -181,7 +196,7 @@ con un menú para poder elegir entre varias distribuciones:
 <hr />
 
 <div id="ending">
-<p>Última actualización: <strong>2013.09.06</strong>.</p>
+<p>Última actualización: <strong>2013.09.22</strong>.</p>
 <p>© Ramón Casares 2006-2013</p>
 </div>
 
