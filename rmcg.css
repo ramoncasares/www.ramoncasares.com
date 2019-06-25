@@ -13,11 +13,14 @@ h3 {
    /* margin-top: 25px; */
 }
 
+#abstract {
+   background-color: #FFFF88;  /* yellow */
+}
+
 #license {
    color: #808080;
    text-align: center;
 }
-
 
 #license a:link {
     color: #909000;
