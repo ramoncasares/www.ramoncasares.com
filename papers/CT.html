@@ -14,15 +14,20 @@
 
 <p><a href="../index.html">Click here to return to the main page</a></p>
 
-<p><a href="https://dx.doi.org/10.6084/m9.figshare.4955501">DOI: 10.6084/m9.figshare.4955501</a></p>
+<p><a href="https://dx.doi.org/10.6084/m9.figshare.4955501">doi: 10.6084/m9.figshare.4955501</a></p>
 
 <hr />
 
 
-<h2>Thesis</h2>
+<h2>Definition</h2>
 
-<p>It is shown that if we are Turing complete, then Church's thesis is true.
-And we are Turing complete, save for time or tape limitations and slips.</p>
+<p>
+In this paper, we use Church’s thesis as formulated by Gandy (1980):
+<center>
+Church’s thesis:
+<i>What is effectively calculable is computable</i>.
+</center>
+</p>
 
 
 <div id="abstract">
@@ -34,6 +39,76 @@ then Church's thesis is true.
 This way we accomplish Post (1936) program.
 </p>
 </div>
+
+
+<h2>Background</h2>
+
+<p>
+Post (1936) sketched a device very similar to a Turing machine, and in the very last
+paragraph he presented a program that interpreted Church’s thesis as a "<i>natural law</i>"
+stating "the limitations of the mathematicizing power of [<i>Homo sapiens</i>]". As any natural
+law, it was in "need of its continual verification." These are the two last sentences of the
+paper by Post.</br>
+<i>
+The success of the above program would, for us, change this hypothesis not so
+much to a definition or to an axiom but to a <em>natural law</em>. Only so, it seems to
+the writer, can Gödel’s theorem concerning the incompleteness of symbolic logics
+of a certain general type and Church’s results on the recursive unsolvability of
+certain problems be transformed into conclusions concerning all symbolic logics
+and all methods of solvability.
+</i>
+</p>
+
+<p>Church reaction was bipolar.
+<ul>
+<li>He was the editor who publish the paper by Post (1936), even though he was aware
+of the yet unpublished paper by Turing (1936), which defined much more completely
+the machine and resolved the <i>Entscheidungsproblem</i> as unsolvable.</li>
+<li>He wrote an unfavorable review in a later issue of the journal, Church (1937), where
+he argued that his thesis was not a natural law, but just a definition.</li>
+</ul>
+
+<p>Davis (1982) provides a more detailed explanation of the history of Church’s thesis.
+There, you can learn about Gödel’s position on Church’s thesis in 1934, as explained by
+Church himself in a letter to Kleene:</br>
+<i>
+His [Gödel’s] only idea at the time [early in 1934] was that it might be possible,
+in terms of effective calculability as an undefined notion, to state a set of axioms
+which would embody the generally accepted properties of this notion, and to do
+something on that basis.
+</i>
+</p>
+
+<h2>My position</h2>
+
+<p>
+I agree completely with Post (1936).
+To me, Church’s thesis is neither a definition, as argued by Church, nor an axiom, as preferred by Gödel,
+but a natural law stating the calculating limitations of the members of our own species <i>Homo sapiens</i>.
+In fact, in my theory, see
+<a href="II.html">The Intention of Intention</a> and
+<a href="TC.html">On Turing Completeness</a>,
+Post's law is the fundamental law of cognition.
+<center>Law of Post: <i>In computing capacity, we are just Turing complete</i>.</center>
+</p>
+
+
+<h2>Effective Computation</h2>
+
+<p>Sometimes a natural law is defined in an ideal world, then appearing to us as an
+approximation. For example, Newton’s first law of motion requires an ideal frictionless
+world. Similarly, in this paper, we find a provision for translating ideal
+computing to real computing: "save for time or tape limitations".
+<ul>
+<li>A <i>finite Turing machine</i> is a Turing machine with a finite tape instead of the infinite
+tape.</li>
+<li>For each finite Turing machine there is one <i>corresponding Turing machine</i>,
+which is the Turing machine that is identical to the finite one, except for the tape.</li>
+<li>Proposition: <i>Save for time or tape limitations, every finite Turing machine computes
+exactly as its corresponding Turing machine</i>.</li>
+</ul>
+</p>
+
 
 <hr />
 
@@ -57,34 +132,34 @@ It was rejected, date 2012-10-10.
 <i>
 <p>
 Comments to the Author:<br>
-The author claimed that he proved Church's thesis. The proof is based 
+The author claimed that he proved Church's thesis. The proof is based
 on the following new theses:
 <ol>
-<li>What is effectively calculable is what a person can calculate.</li> 
+<li>What is effectively calculable is what a person can calculate.</li>
 <li>Person's syntax engine is a Finite Universal Turing Machine.</li>
 </ol>
-where "what a person can calculate" is defined as what her syntax 
-engine can compute. 
+where "what a person can calculate" is defined as what her syntax
+engine can compute.
 </p>
 
 <p>
 I do not think the proof is valid, for the following reasons:
 <ol>
-<li>How much true are your new theses? Note that if your proof is 
-   based on incorrect assumptions, then you can prove ANY 
-   thing (recall A -> B is always true if A is false). Also, if your 
-   assumptions are stronger than Church's thesis, then proving 
+<li>How much true are your new theses? Note that if your proof is
+   based on incorrect assumptions, then you can prove ANY
+   thing (recall A -> B is always true if A is false). Also, if your
+   assumptions are stronger than Church's thesis, then proving
    Church's thesis is not interesting.</li>
 
-<li>I do not think the conclusion of your section 3 is correct. In fact, 
-   your finite Turing Machines are finite state automata (bounded 
-   space is equivalent to no space). Since there are infinitely many 
-   finite Turing Machines, I do not think there can be a single finite 
-   Universal Turing Machine that can "simulate" all finite Turing 
-   Machines.  If you still think your argument is valid, please provide 
-   a very detailed proof for this (a formal definition of Finite Turing 
-   Machine, a formal definition of a finite Universal Turing Machine, 
-   a detailed and formal proof that any finite Turing Machine can be 
+<li>I do not think the conclusion of your section 3 is correct. In fact,
+   your finite Turing Machines are finite state automata (bounded
+   space is equivalent to no space). Since there are infinitely many
+   finite Turing Machines, I do not think there can be a single finite
+   Universal Turing Machine that can "simulate" all finite Turing
+   Machines.  If you still think your argument is valid, please provide
+   a very detailed proof for this (a formal definition of Finite Turing
+   Machine, a formal definition of a finite Universal Turing Machine,
+   a detailed and formal proof that any finite Turing Machine can be
    simulated by the finite Universal Turing Machine.</li>
 </ol>
 </p>
@@ -103,7 +178,7 @@ the claimed result.
 <p>
 It was submitted to the journal "Theory of Computing",
 date 2015-11-25.
-Date 2015-11-27: 
+Date 2015-11-27:
 <i>I regret to say that the editors decided that
 this paper cannot be published in "Theory of Computing"
 for lack of technical content.</i>
@@ -119,25 +194,40 @@ It was uploaded to Figshare, date 2017-04-30.
 
 <h2>References</h2>
 
-<p>Link to the page of my "proof" of the Church-Turing thesis in the
- <a href="http://arxiv.org/abs/1209.5036">arXiv</a>,
- and direct link to the
- <a href="http://arxiv.org/pdf/1209.5036v5">pdf file</a>.
-</p>
-
 <p>
- A second version is in
+ Link to the page of my "proof" of the Church-Turing thesis in
  <a href="https://figshare.com/articles/Proof_of_Church_s_Thesis/4955501">figshare</a>,
- with its
+ and direct link to the
  <a href="https://ndownloader.figshare.com/files/8332307">pdf file</a>.
 </p>
 
+<p>
+ Another version is in the
+ <a href="http://arxiv.org/abs/1209.5036">arXiv</a>,
+ with its
+ <a href="http://arxiv.org/pdf/1209.5036v5">pdf file</a>.
+</p>
+
+<p>These are the external references used in his page:
+<ul>
+<li>Church (1937): "Review of Post (1936)",
+<a href="https://dx.doi.org/10.1017/S0022481200039591">doi: 10.1017/S0022481200039591</a>.</li>
+<li>Davis (1982): "Why Gödel Didn’t Have Church’s Thesis",
+<a href="https://dx.doi.org/10.1016/s0019-9958(82)91226-8">doi: 10.1016/s0019-9958(82)91226-8</a>.</li>
+<li>Gandy (1980): "Church’s Thesis and Principles for Mechanisms",
+<a href="https://dx.doi.org/10.1016/s0049-237x(08)71257-6">doi: 10.1016/s0049-237x(08)71257-6</a>.</li>
+<li>Post (1936): "Finite Combinatory Processes — Formulation 1",
+<a href="https://dx.doi.org/10.2307/2269031">doi: 10.2307/2269031</a>.</li>
+<li>Turing (1936): "On Computable Numbers, with an Application to the Entscheidungsproblem",
+<a href="https://dx.doi.org/10.1112/plms/s2-42.1.230">doi: 10.1112/plms/s2-42.1.230</a>.</li>
+</ul>
+</p>
 
 
 <hr />
 
 <div id="ending">
-<p>Última actualización: <strong>2019-06-26</strong>.</p>
+<p>Última actualización: <strong>2019-07-19</strong>.</p>
 <p>© Ramón Casares 2015-2019</p>
 </div>
 
