@@ -30,39 +30,166 @@
 <h2>Background</h2>
 
 <p>
-I wanted to investigate the precise scope of Gödel's incompleteness theorems.
+I wanted to investigate the precise scope of Gödel's incompleteness theorem,
+and its interpretation from my Post-Kantian point of view.
 </p>
 
 
 <h2>Title</h2>
 
 <p>
-The first intended title was “Gödel, Post, and Turing”,
+At first, the intended title was “Gödel, Post, and Turing”,
 abbreviated <a href="https://en.wikipedia.org/wiki/GPT-3">GPT</a>
 as the popular IA model.
 </p>
 
 <p>
-However, in the end, the main result of my investigation was that
+However, in the end, the main result was that
 <i>every Turing complete language is Gödel incomplete</i>,
-so the final title presented itself to me.
+so the definitive title introduced itself to me.
 </p>
 
 
-<h2>Technicalities</h2>
+<h2>Cantor and Gödel</h2>
 
 <p>
-I have adapted the notation of Cantor's (1891) diagonal argument
-to conform to Gödel's (1930) notation,
+Cantor's diagonal argument makes clear that the concept <i>set</i>
+is equivalent to the concept <i>predicate</i>:
+Each predicate defines a set by determining what is in and what is out of it.
+As we see in the paper, Gödel incompleteness theorem
+shows the limitations of this fundamental concept,
+which had been already questioned by
+<a href="https://en.wikipedia.org/wiki/Russell%27s_paradox">Russell's paradox</a>.
+</p>
+
+<p>
+In order to better compare
+Cantor (1891) with Gödel (1930),
+I have adapted the notation of Cantor's diagonal argument
+to conform to Gödel's incompleteness notation,
 except when I did not follow Gödel, which was only once:
 I prefer R<sub>p</sub>(n) to his [R(p);n],
 where R<sub>p</sub> is the p-th formalized predicate,
- or class-expresion in Davis' (1965) translation,
 and then R<sub>p</sub>(n) denotes the formula
  which arises from R<sub>p</sub> by substitution
  of n for the free variable of the predicate.
 </p>
 
+<p>
+When using the same notation,
+it seems that a contradiction arises:
+Cantor showed that the predicates are not enumerable,
+while Gödel say they are.
+However, they are not talking exactly about the same thing:
+Gödel does not refer to an unqualified predicate,
+but to a „Klassenzeichen“,
+which Davis (1965) translates as a “class-expression”,
+that is, to a formalized predicate.
+Formalized predicates are predicates,
+and formalized predicates can be enumerated.
+These two resolve the conundrum.
+Note that formalized predicates are those that
+can be expressed in the formal system,
+which is an <i>ad hoc</i> and very peculiar language.
+</p>
+
+
+<h2>Gödel and Turing</h2>
+
+<p>
+Gödel had to invent a complete language to prove his
+incompleteness theorem. It was an <i>ad hoc</i> and very peculiar language,
+and Turing clarified many details, as Gödel himself acknowledged,
+as related by Davis (1982), pages 12–13.
+</p>
+
+<p><i>
+Nevertheless, Gödel was not convinced by the available evidence,
+and remained unwilling to endorse the equivalence of effective calculability,
+either with recursiveness or with λ-definablity.
+He insisted (as Church later reported to Kleene) that it
+was “thoroughly unsatisfactory” to define the effectively
+calculable functions to be some particular class
+without first showing that “the generally accepted properties”
+of the notion of effective calculability necessarily lead to this class.
+As we shall see, it was not until Turing's work became known that
+Gödel was willing to concede that this difficulty had been overcome.
+</i></p>
+
+
+<h2>Turing and Church</h2>
+
+<p>
+As the previous citation says,
+Turing computing generalizes both Gödel recursiveness and
+Church λ-definablity.
+That is the reason why it is better (more general and simpler)
+to formulate Gödel incompleteness theorem and Church's thesis
+in Turing computing terms.
+So I do it thus in the paper.
+</p>
+
+<ul>
+<li><i>Incompletenss theorem:
+ every Turing complete language is Gödel incomplete.</i></li>
+<li><i>Church's thesis:
+ there are not more capable calculating devices than
+ universal Turing machines.</i></li>
+</ul>
+
+
+<h2>Church and Post</h2>
+
+<p>Church's reaction to Post was bipolar.
+<ul>
+<li>He was the editor who published the paper by Post (1936),
+even though he was aware of the yet unpublished paper by Turing (1936),
+which defined much more completely the machine and
+resolved the <i>Entscheidungsproblem</i> as unsolvable.</li>
+<li>He wrote an unfavorable review in a later issue of the journal,
+Church (1937), where he argued that his thesis was not a <i>law of nature</i>,
+but just a definition.</li>
+</ul>
+
+<p>
+We position ourselves with Post: Church's thesis is a <i>law of nature</i>.
+More precisely, Church's thesis is a consequence of the <i>law of Post</i>.
+</p>
+
+
+<h2>Post and Kant</h2>
+
+<p>
+Post and Kant fit nicely into a Post-Kantian subjectivism.
+</p>
+
+<ul>
+<li><i>Kant’s thesis:
+all we subjects know is calculated by our brain.</i></li>
+<li><i>Law of Post:
+our human brain calculating capability is limited to universal computing.</i></li>
+</ul>
+
+
+<h2>Illusory sets</h2>
+
+<p>
+Universal computing requires a complete language,
+which is one in which every computation can be meaningfully expressed.
+However, as shown by Gödel incompleteness theorem
+generalized to Turing computing,
+<i>every complete language is Gödel incomplete</i>.
+As a consequence, there are some sets that seem to be right
+but are illusions, as for example
+the set of all sets that are not members of themselves, which is Russell set, or
+the set of all true arithmetic propositions, which is Gödel set, or
+the set of all halting computations of a complete language, which is Turing set,
+and so on.
+These illusory sets are non-recursive (= non-computable),
+because it is not possible to recursively (= computably) enumerate
+both the set and its complement, so it is not possible to decide
+what is in and what is out of the set.
+</p>
 
 
 <h2>Two last paragraphs</h2>
@@ -138,12 +265,20 @@ limitations in our finitary tool, which is our complete language.
 <li>Cantor (1891): „Ueber eine elementare Frage der Mannigfaltigkeitslehre“,
  in <a href="https://gdz.sub.uni-goettingen.de/id/PPN37721857X_0001"><i>Jahresbericht
  der Deutschen Mathematiker-Vereinigungpages</i>, 1890–1891, vol. 1, pp. 75–78</a>.</li>
+<li>Church (1937): "Review of Post (1936)",
+<a href="https://dx.doi.org/10.1017/S0022481200039591">DOI: 10.1017/S0022481200039591</a>.</li>
 <li>Davis (1965) editor: “The Undecidable: Basic Papers on Undecidable Propositions,
  Unsolvable Problems and Computable Functions”,
 <a href="https://archive.org/details/isbn_9780486432281">ISBN: 978-0-486-43228-1</a>.</li>
+<li>Davis (1982): "Why Gödel Didn’t Have Church’s Thesis",
+<a href="https://dx.doi.org/10.1016/s0019-9958(82)91226-8">DOI: 10.1016/s0019-9958(82)91226-8</a>.</li>
 <li>Gödel (1930): „Über formal unentscheidbare Sätze
  der Principia Mathematica und verwandter Systeme I“,
 <a href="https://doi.org/10.1007/BF01700692">DOI: 10.1007/BF01700692</a>.</li>
+<li>Post (1936): "Finite Combinatory Processes — Formulation 1",
+<a href="https://dx.doi.org/10.2307/2269031">DOI: 10.2307/2269031</a>.</li>
+<li>Turing (1936): "On Computable Numbers, with an Application to the Entscheidungsproblem",
+<a href="https://dx.doi.org/10.1112/plms/s2-42.1.230">DOI: 10.1112/plms/s2-42.1.230</a>.</li>
 </ul>
 
 
@@ -157,7 +292,7 @@ limitations in our finitary tool, which is our complete language.
 <hr />
 
 <div id="ending">
-<p>Última actualización: <strong>2024-04-24</strong>.</p>
+<p>Última actualización: <strong>2024-04-27</strong>.</p>
 <p>© Ramón Casares 2024</p>
 </div>
 
