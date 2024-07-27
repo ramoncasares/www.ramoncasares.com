@@ -30,8 +30,10 @@
 <h2>Background</h2>
 
 <p>
-I wanted to investigate the precise scope of Gödel's incompleteness theorem,
-and its interpretation from my Post-Kantian point of view.
+This paper presents my Post-Kantian interpretation
+of Gödel's incompleteness theorem, and
+related ones on unsolvability by Church and Turing.
+All of them are seen from a linguistic point of view.
 </p>
 
 
@@ -55,7 +57,7 @@ so the definitive title introduced itself to me.
 <p>
 Cantor's diagonal argument makes clear that the concept <i>set</i>
 is equivalent to the concept <i>predicate</i>:
-Each predicate defines a set by determining what is in and what is out of it.
+Each predicate expresses a set by determining what is in and what is out of it.
 As we see in the paper, Gödel incompleteness theorem
 shows the limitations of this fundamental concept,
 which had been already questioned by
@@ -97,7 +99,7 @@ which is an <i>ad hoc</i> and very peculiar language.
 <h2>Gödel and Turing</h2>
 
 <p>
-Gödel had to invent a complete language to prove his
+Gödel had to invent a complete language in order to prove his
 incompleteness theorem. It was an <i>ad hoc</i> and very peculiar language,
 and Turing clarified many details, as Gödel himself acknowledged,
 as related by Davis (1982), pages 12–13.
@@ -130,10 +132,10 @@ So I do it thus in the paper.
 </p>
 
 <ul>
-<li><i>Incompletenss theorem:
- every Turing complete language is Gödel incomplete.</i></li>
-<li><i>Church's thesis:
- there are not more capable calculating devices than
+<li><b>Incompleteness theorem:</b>
+ <i>every Turing complete language is Gödel incomplete.</i></li>
+<li><b>Church's thesis:</b>
+ <i>there are not more capable calculating devices than
  universal Turing machines.</i></li>
 </ul>
 
@@ -144,11 +146,12 @@ So I do it thus in the paper.
 <ul>
 <li>He was the editor who published the paper by Post (1936),
 even though he was aware of the yet unpublished paper by Turing (1936),
-which defined much more completely the machine and
+which defined much more completely the machine,
+presented a universal machine, and
 resolved the <i>Entscheidungsproblem</i> as unsolvable.</li>
 <li>He wrote an unfavorable review in a later issue of the journal,
 Church (1937), where he argued that his thesis was not a <i>law of nature</i>,
-but just a definition.</li>
+as defended by Post, but just a definition.</li>
 </ul>
 
 <p>
@@ -164,40 +167,58 @@ Post and Kant fit nicely into a Post-Kantian subjectivism.
 </p>
 
 <ul>
-<li><i>Kant’s thesis:
-all we subjects know is calculated by our brain.</i></li>
-<li><i>Law of Post:
-our human brain calculating capability is limited to universal computing.</i></li>
+<li><b>Kant’s thesis:</b>
+<i>all we subjects know is calculated by our brain.</i></li>
+<li><b>Law of Post:</b>
+<i>our human brain calculating capability is limited to universal computing.</i></li>
 </ul>
 
 
-<h2>Illusory sets</h2>
+<h2>Undecidable sets</h2>
 
 <p>
-Universal computing requires a complete language,
+Universal computing requires a Turing complete language,
+or a <i>complete language</i> for short,
 which is one in which every computation can be meaningfully expressed.
-However, as shown by Gödel incompleteness theorem
+However, as shown by Gödel's incompleteness theorem
 generalized to Turing computing,
-<i>every complete language is Gödel incomplete</i>.
-As a consequence, there are some sets that seem to be right
-but are illusions, as for example
-the set of all sets that are not members of themselves, which is Russell set, or
-the set of all true arithmetic propositions, which is Gödel set, or
-the set of all halting computations of a complete language, which is Turing set,
-and so on.
-These illusory sets are non-recursive (= non-computable),
-because it is not possible to recursively (= computably) enumerate
-both the set and its complement, so it is not possible to decide
-what is in and what is out of the set.
-<center><i>Paradoxes are to language as illusions are to perception</i></center><br>
+<center><i>every Turing complete language is Gödel incomplete</i>.</center>
 </p>
+
+<p>
+Being Gödel incomplete means that
+there are concepts that can be defined but not expressed,
+ for example ‘arithmetic truth’.
+In other words, the set of all true arithmetic propositions,
+ which is <i>Gödel set T</i>,
+is undecidable because
+ it is not possible to write a computable predicate
+ that determines what is in and what is out of it,
+implying that we cannot always decide
+ whether an aritmetic proposition belongs to the set or not.
+Other undecidable sets are
+the set of all sets that are not members of themselves,
+ which is <i>Russell set R</i>, and
+the set of all halting computations of a complete language,
+ which is <i>Turing set H</i>.
+All undecidable sets, with their associated concepts,
+ are paradoxical or illusory,
+ because they can be defined, named, and referred to,
+ but they cannot be expressed in a complete language.
+</p>
+
+<div style="text-align:center">
+  <a title="Cognition by Kant" href="https://dx.doi.org/10.6084/m9.figshare.25434994">
+  <img src="Kant.svg" alt="Cognition by Kant figure" height="300" width="678"></a>
+  <center><b>Paradoxes are to language as illusions are to perception</b></center>
+</div>
 
 
 <h2>Two last paragraphs</h2>
 
 <p>
 Therefore, the diagonal argument is used to show some limitations of human language,
-see §10.2, and of other finitary systems, which derive from it. In these systems, the means
+and of other finitary systems, which derive from it. In these systems, the means
 are finite, but we do not limit their use. This is, of course, an idealization, but nevertheless
 it would also be wrong to limit, for example, the number of words in a sentence, or the
 number of steps in a proof. Summarizing, the incompleteness and unsolvability theorems
@@ -206,7 +227,7 @@ language.
 </p>
 
 <p>
-And, in any complete language, there are definable concepts that cannot be expressed.
+And, in any complete language, there are definable concepts that cannot be expressed, see §10.2.
 This generalizes Gödel’s incompleteness theorem, see §6¶8, which represents, under the
 law of Post, an absolute human limitation, see §7 and §8, which Kant promotes to
 transcendental, see §9. So, epistemologically, Gödel’s incompleteness theorem elevates<br>
@@ -256,7 +277,7 @@ limitations in our finitary tool, which is our complete language.
  Link to the page of my paper on “Gödel Incompleteness and Turing Completeness” in
  <a href="https://figshare.com/articles/preprint/G_del_Incompleteness_and_Turing_Completeness/25434994">figshare</a>,
  and direct link to the
- <a download href="https://figshare.com/ndownloader/files/46857739">pdf file</a>.
+ <a download href="https://figshare.com/ndownloader/files/47962456">pdf file</a>.
 </p>
 
 
@@ -288,13 +309,14 @@ limitations in our finitary tool, which is our complete language.
 <li><a href="https://figshare.com/ndownloader/files/45184561">f1 20240321</a></li>
 <li><a href="https://figshare.com/ndownloader/files/45829845">f2 20240424</a></li>
 <li><a href="https://figshare.com/ndownloader/files/46857739">f3 20240606</a></li>
+<li><a href="https://figshare.com/ndownloader/files/47962456">f4 20240727</a></li>
 </ul>
 
 
 <hr />
 
 <div id="ending">
-<p>Última actualización: <strong>2024-06-06</strong>.</p>
+<p>Última actualización: <strong>2024-07-27</strong>.</p>
 <p>© Ramón Casares 2024</p>
 </div>
 
