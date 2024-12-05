@@ -7,6 +7,25 @@
 <link rel="stylesheet" type="text/css" href="../rmcg.css" />
 </head>
 
+<script type="text/javascript"
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_CHTML">
+</script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [['$','$'], ['\\(','\\)']],
+      processEscapes: true},
+      jax: ["input/TeX","input/MathML","input/AsciiMath","output/CommonHTML"],
+      extensions: ["tex2jax.js","mml2jax.js","asciimath2jax.js","MathMenu.js","MathZoom.js","AssistiveMML.js", "[Contrib]/a11y/accessibility-menu.js"],
+      TeX: {
+      extensions: ["AMSmath.js","AMSsymbols.js","noErrors.js","noUndefined.js"],
+      equationNumbers: {
+      autoNumber: "AMS"
+      }
+    }
+  });
+</script>
+
 <body>
 
 <h1>Gödel Incompleteness and Turing Completeness</h1>
@@ -70,11 +89,11 @@ Cantor (1891) with Gödel (1930),
 I have adapted the notation of Cantor's diagonal argument
 to conform to Gödel's incompleteness notation,
 except when I did not follow Gödel, which was only once:
-I prefer R<sub>p</sub>(n) to his [R(p);n],
-where R<sub>p</sub> is the p-th formalized predicate,
-and then R<sub>p</sub>(n) denotes the formula
- which arises from R<sub>p</sub> by substitution
- of n for the free variable of the predicate.
+I prefer $R_p(n)$ to his $[R(p);n]$,
+where $R_p$ is the $p$-th formalized predicate,
+and then $R_p(n)$ denotes the formula
+ which arises from $R_p$ by substitution
+ of $n$ for the free variable of the predicate.
 </p>
 
 <p>
@@ -88,8 +107,8 @@ but to a „Klassenzeichen“,
 which Davis (1965) translates as a “class-expression”,
 that is, to a formalized predicate.
 Formalized predicates are predicates,
-and formalized predicates can be enumerated.
-These two resolve the conundrum.
+and formalized predicates can be enumerated;
+this resolves the conundrum!
 Note that formalized predicates are those that
 can be expressed in the formal system,
 which is an <i>ad hoc</i> and very peculiar language.
@@ -139,6 +158,18 @@ So I do it thus in the paper.
  universal Turing machines.</i></li>
 </ul>
 
+<p>This linguistic generalization of Gödel's incompleteness theorem
+is still a mathematical theorem. That is,
+it is not open to interpretation.
+In a way, as every mathematical theorem,
+it is a tautology, and as such, in principle, of no practical importance.</p>
+
+<p>Its importance depends on Church's thesis, but
+there is not any agreement on the epistemological status of this thesis.
+For Church himself, his thesis was a definition.
+Gödel preferred it to be an axiom in a formal system capturing the meaning of computation.
+But we side with Post, see next section.</p>
+
 
 <h2>Church and Post</h2>
 
@@ -155,7 +186,7 @@ as defended by Post, but just a definition.</li>
 </ul>
 
 <p>
-We position ourselves with Post: Church's thesis is a <i>law of nature</i>.
+We position ourselves with Post, see §8: Church's thesis is a <i>law of nature</i>.
 More precisely, Church's thesis is a consequence of the <i>law of Post</i>.
 </p>
 
@@ -174,14 +205,97 @@ Post and Kant fit nicely into a Post-Kantian subjectivism.
 </ul>
 
 
-<h2>Undecidable sets</h2>
+<div style="text-align:center">
+  <a title="Cognition by Kant" href="https://dx.doi.org/10.6084/m9.figshare.25434994">
+  <img src="Kant.svg" alt="Cognition by Kant figure" height="300" width="678"></a>
+  <center><b>Paradoxes are to language as illusions are to perception</b></center>
+</div>
 
-<p>
-Universal computing requires a Turing complete language,
-or a <i>complete language</i> for short,
-which is one in which every computation can be meaningfully expressed.
-However, as shown by Gödel's incompleteness theorem
-generalized to Turing computing,
+
+<h2>Notes</h2>
+
+<h3>Composing operation</h3>
+
+<p>The <u>underlined text</u> will be added, in  §4¶5,
+to the next version of the paper, v6:
+
+<blockquote>
+    <p>So the <em>equation of Turing completeness</em>,
+      where the $|$ represents an end of program symbol
+      <u>or, in general, a composing operation</u>, is:</p>
+</blockquote>
+
+<p>$$\exists\,{\cal U},\forall{\cal P},\forall{\frak d}:\;
+  \overleftarrow{{\cal U}\langle\,{\frak p}|\vec{\frak d}\,\rangle}
+  = {\cal P}\langle{\frak d}\rangle \;.$$</p>
+
+<p>The composing operation can be Merge, <code>cons</code>, or another one.</p>
+
+
+<h3>Decidable syntax</h3>
+
+<p>In §4¶6 it is written:</p>
+
+<blockquote>
+    <p>Note that, to satisfy the equation,
+     the syntax of $\cal L$ has to be decidable.</p>
+</blockquote>
+
+<p>This is because, while in the right hand side (rhs)
+of the equation of Turing completeness,
+$\frak d$ is any string of symbols of $\cal P$,
+in the left hand side (lhs), what is in the tape
+is not any string of symbols of $\cal U$,
+but a well-formed formula (wff), or sentence, of
+the language $\cal L$ implemented by
+the universal Turing machine $\cal U$.
+Therefore, the equation of Turing completeness
+requires that it is always possible to decide both
+whether a string of $\cal L$ is a program $\frak p$ or not,
+and whether a string of $\cal L$ is
+ properly coded data $\vec{\frak d}$ or not.</p>
+
+<p>Note that, in any sentence of any Turing complete language $\cal L$,
+there is a program $\frak p$, which works as a verb,
+and its argument, or coded data $\vec{\frak d}$,
+which works as anything else,
+i.e. either subject, or object, or whatever,
+ and even more than one, or none.</p>
+
+
+<h3>Inexpressible predicates</h3>
+
+<p>In §6¶6 it is written:</p>
+
+<blockquote>
+    <p>Then, in the complete language $\cal L$
+     of the universal Turing machine $\cal U$,
+     a program $\frak h$ that solves the halting problem
+     is inexpressible.</p>
+</blockquote>
+
+<p>Turing computing is more general than Gödel's formal system,
+and therefore it is not limited to produce <code>TRUE</code> statements,
+also known as theorems. However,
+a program that always halts and that outputs only two possible values,
+ one for <code>TRUE</code> and the other one for <code>FALSE</code>,
+implements a predicate.</p>
+
+<p>Then program $\frak h$ is defined to be a predicate,
+since it would always decide whether a computation would halt or not.
+So program $\frak h$ is a definable predicate,
+which is not expressible in any Turing complete language.
+In other words, $\frak h$ defines the set of the halting
+computations of the Turing complete language $\cal L$;
+let us call it set $H$.</p>
+
+
+<h3>Undecidable sets</h3>
+
+<p>Since in every Turing complete language
+there is an inexpressible program $\frak h$,
+we can formulate Gödel's incompleteness theorem
+generalized to Turing computing this way:
 <center><i>every Turing complete language is Gödel incomplete</i>.</center>
 </p>
 
@@ -199,22 +313,32 @@ implying that we cannot always decide
 Other undecidable sets are
 the set of all sets that are not members of themselves,
  which is <i>Russell set S</i>, and
-the set of the halting computations of a complete language,
+the set of the halting computations of a Turing complete language,
  which is <i>Turing set H</i>.
+</p>
+
+<p>
 All undecidable sets, with their associated concepts,
  are paradoxical or illusory,
  because they can be defined, named, and referred to,
- but they cannot be expressed in a complete language.
+ but they cannot be expressed in a Turing complete language.
+And, because any arithmetic truth is a truth,
+ if there are undecidable arithmetic truths, then there are undecidable truths.
+ Therefore, as a consequence of Gödel's incompleteness theorem,
+ <i>truth is an undecidable concept</i>.
+In addition, outside computing, a partial function is not a function,
+ and only total functions are considered functions.
+ Therefore, the halting theorem shows, in computing,
+ that ‘total function’ is an undecidable concept,
+ and, in general, that
+ <i>function is an undecidable concept</i>.
+In summary, <i>set</i>, <i>truth</i>, and <i>function</i> are three undecidable concepts.
 </p>
 
-<div style="text-align:center">
-  <a title="Cognition by Kant" href="https://dx.doi.org/10.6084/m9.figshare.25434994">
-  <img src="Kant.svg" alt="Cognition by Kant figure" height="300" width="678"></a>
-  <center><b>Paradoxes are to language as illusions are to perception</b></center>
-</div>
 
+<hr/>
 
-<h2>Two last paragraphs</h2>
+<h2>Last two paragraphs</h2>
 
 <p>
 Therefore, the diagonal argument is used to show some limitations of human language,
@@ -233,7 +357,7 @@ law of Post, an absolute human limitation, see §7 and §8, which Kant promotes 
 transcendental, see §9. So, epistemologically, Gödel’s incompleteness theorem elevates<br>
 from Turing’s generalization,<br>
 <center><i>every Turing complete language is Gödel incomplete</i>,</center><br>
-to its Post-Kantian formulation,<br>
+to its Post-Kantian formulation,<br><br>
 <center><i>knowledge cannot be complete</i>.</center>
 </p>
 
@@ -334,7 +458,7 @@ when it was rejected.</p>
 <hr />
 
 <div id="ending">
-<p>Última actualización: <strong>2024-11-19</strong>.</p>
+<p>Última actualización: <strong>2024-12-05</strong>.</p>
 <p>© Ramón Casares 2024</p>
 </div>
 
