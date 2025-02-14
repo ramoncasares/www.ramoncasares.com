@@ -107,6 +107,64 @@ universal Turing machine.
 </p>
 
 
+<hr />
+
+<h2>Notes</h2>
+
+<p>
+After writing
+<i><a href="GT.html">Gödel Incompleteness and Turing Completeness</a></i>,
+I changed my mind on some things,
+some of which are written in this paper,
+and therefore they need a revision.
+</p>
+
+<h3>Paradoxes and computing</h3>
+
+<p>
+My previous idea was that there were not paradoxes in computing,
+ simply because in computing everything is enumerable
+ and nothing is uncountable; see for example §6.2.
+But now I see it otherwise:
+ infinite computations are undecided,
+ and then the liar paradox can be expressed in
+ any Turing complete language, for example:
+ <code>liar() = return( not liar() )</code>.
+</p>
+
+<p>
+I need to rethink all this more deeply,
+ because it is also true that, as Gödel noted:
+ <i>For the concept of computability however,
+ although it is merely a special kind of demonstrability or decidability,
+ the situation is different.
+ By a kind of miracle it is not necessary to distinguish orders,
+ and the diagonal procedure does not lead outside the defined notion.</i>
+</p>
+
+<h3>Notation for Turing completeness</h3>
+
+<p>
+The new notation for the equation of Turing completeness,
+ which is theorem §4.2.1 here,
+is better than the old one,
+because the new notation includes data encoding,
+which was forgotten in this paper.
+</p>
+
+<h3>Predicates and conditions, expressions and definitions</h3>
+
+<p>
+I now differenciate <i>predicate</i> from <i>condition</i>.
+For example, <i>program halting</i> is a condition
+that cannot be expressed as a predicate.
+I now also make a difference between <i>to express</i> and <i>to define</i>.
+</p>
+
+
+<hr />
+
+
 <div id="abstract">
 <h2>Abstract</h2>
 
@@ -205,7 +263,7 @@ It was uploaded to the arXiv, date 2014-12-01.
 
 <h3>JMLR</h3>
 <p>
-It was submitted to 
+It was submitted to
 Journal of Machine Learning Research,
 date 2015-02-14.
 It was rejected, date 2015-02-16,
@@ -215,7 +273,7 @@ because:
 <ul>
  <li>
   the paper is out of scope and would fit much better
-  into a different journal 
+  into a different journal
  </li>
  <li>
   the paper is in a field that is not of sufficient interest
@@ -232,7 +290,7 @@ because:
 
 <h3>JAIR</h3>
 <p>
-It was submitted to 
+It was submitted to
 Journal of Artificial Intelligence Research,
 date 2015-02-18.
 It was rejected, date 2015-03-19:
@@ -268,13 +326,13 @@ Please note that this letter should not be taken as
 a statement regarding the quality of your research.
 The paper has not been reviewed further.
 This letter is based on an editorial decision that
-the submission does not meet the requirements for JAIR. 
+the submission does not meet the requirements for JAIR.
 </p>
 </i>
 
 <h3>Theory of Computing</h3>
 <p>
-It was submitted to 
+It was submitted to
 Theory of Computing,
 date 2015-05-19.
 It was rejected, date 2015-05-20:
@@ -285,7 +343,7 @@ It was rejected, date 2015-05-20:
 
 <h3>DMTCS</h3>
 <p>
-It was submitted to 
+It was submitted to
 Discrete Mathematics & Theoretical Computer Science,
 date 2015-06-04.
 It was rejected, date 2015-06-05:
@@ -336,8 +394,8 @@ It was uploaded to Figshare, date 2017-05-01.
 <hr />
 
 <div id="ending">
-<p>Última actualización: <strong>2022-03-03</strong>.</p>
-<p>© Ramón Casares 2019-2022</p>
+<p>Última actualización: <strong>2025-02-11</strong>.</p>
+<p>© Ramón Casares 2019-2025</p>
 </div>
 
 </body>
