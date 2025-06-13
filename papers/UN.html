@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Ramón Casares / Papers / On Unprecise Numbers</title>
+<link rel="stylesheet" type="text/css" href="../rmcg.css" />
+</head>
+
+<script type="text/javascript"
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_CHTML">
+</script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [['$','$'], ['\\(','\\)']],
+      processEscapes: true },
+    jax: ["input/TeX","input/MathML","input/AsciiMath","output/CommonHTML"],
+    extensions: ["tex2jax.js","mml2jax.js","asciimath2jax.js","MathMenu.js","MathZoom.js","AssistiveMML.js", "[Contrib]/a11y/accessibility-menu.js"],
+    TeX: {
+      extensions: ["AMSmath.js","AMSsymbols.js","noErrors.js","noUndefined.js"],
+      equationNumbers: { autoNumber: "AMS" } },
+  });
+</script>
+
+<body>
+
+<h1>On Unprecise Numbers</h1>
+
+<hr />
+
+<p><a href="https://dx.doi.org/10.6084/m9.figshare.29066705">
+ <!-- $ qrencode -o AP-QR-DOI.png 'https://dx.doi.org/10.6084/m9.figshare.29066705'  -->
+ <img src="UN-QR-DOI.png" alt="DOI: 10.6084/m9.figshare.29066705" style="float:right;">
+</a></p>
+
+<p><a href="../index.html">Click here to return to the main page</a></p>
+
+<p><a href="https://dx.doi.org/10.6084/m9.figshare.29066705">
+ DOI: 10.6084/m9.figshare.29066705
+</a></p>
+
+<hr />
+
+
+<h2>Introduction</h2>
+
+<p>
+This paper, <i>On Unprecise Numbers</i>, was intended as a second offshoot of
+ <i><a href="../GT.html">Gödel Incompleteness and Turing Completeness</a></i>.
+However, the final version is more a complementary than a derivative work.
+</p>
+
+<p>
+While writing it, I had to change my mind because I was wrong.
+My initial idea was to show that the unprecise numbers were the complete numbers,
+where a complete number is any that requires a complete language to be defined.
+I was also surprised when I realized that number M is computable.
+</p>
+
+<h2>Syntax and semantics</h2>
+
+<p>
+The <i>equation of Turing completeness</i> is:
+$$\exists\,{\cal U},\forall{\cal P},\forall{\frak d}:\;
+  \overleftarrow{{\cal U}\langle\,{\frak p}|\vec{\frak d}\,\rangle}
+  = {\cal P}\langle{\frak d}\rangle \;.$$
+</p>
+
+<p>
+In the equation, $\langle\,{\frak p}|\vec{\frak d}\,\rangle$
+is the computation that applies coded data $\vec{\frak d}$ to program $\frak p$,
+where $\frak p$ is the Turing machine $\cal P$ coded in
+the complete language $\cal L$ implemented by the universal Turing machine $\cal U$.
+For the equation of Turing completeness to work,
+the string $\langle\,{\frak p}|\vec{\frak d}\,\rangle$
+has to be a well-formed formula of language $\cal L$.
+In other words, the syntax of $\cal L$ is decidable,
+because otherwise the equation of Turing completeness does not work.
+</p>
+
+<p>
+Since the well-formed formulas, or sentences, of the complete language $\cal L$ are computations,
+then the semantics of $\cal L$ expresses computations.
+And since the <i>halting theorem</i> says that
+<center><i>no program can decide for every computation whether it will halt or not</i>,</center><br>
+then the semantics of the complete language $\cal L$ is undecidable.
+</p>
+
+<p>
+Therefore, the <i>Corollary</i> to the halting theorem says that
+<center><i>in every complete language, syntax is decidable but semantics is undecidable</i>.</center>
+</p>
+
+
+<h2>Paradoxes</h2>
+
+<p>
+As a consequence of the Corollary to the halting theorem,
+there are paradoxes in every complete language.
+A <i>paradox</i> is a non-halting computation, that is,
+a well-formed formula, or sentence, of a complete language $\cal L$
+the semantics of which we cannot reach because it closes an infinite loop.
+</p>
+
+<p>
+The halting theorem can now be stated as follows:
+<center><i>we cannot decide for every sentence whether it is a paradox or not</i>.</center>
+</p>
+
+
+<hr />
+
+<h2>Last paragraph</h2>
+
+<p>
+Let me conclude answering our first question:
+Why do not we use, in practice, any uncomputable number?
+Because, being under the law of Post,
+we cannot conceptualize what is not computable.
+In figurative language,
+ what is uncomputable is in our conceptual blind spot.
+While paradoxes show that our conceptual blind spot is not precise,
+so the unprecise numbers are in its twilight,
+the blind spot itself provides another argument
+for the law of Post.
+</p>
+
+
+<div id="abstract">
+<h2>Abstract</h2>
+
+<p>Regarding computability,
+there are three kinds of real numbers:
+ the computable, the random, and the unprecise numbers.
+Some unprecise numbers are
+those based on Radó's busy beaver functions,
+Chaitin's constant Ω, and
+those coding the halting problem oracle of a Turing complete language.
+Since <i>number</i> is an undecidable concept,
+the unprecise numbers are its paradoxical instances.
+We show that there are paradoxes in every Turing complete language
+because its syntax is decidable but its semantics is undecidable.</p>
+</div>
+
+<hr />
+
+
+<!-- - ->
+
+<h2>Versions</h2>
+
+
+<h3>"On Unprecise Numbers" v1 submitted to the arXiv</h3>
+
+<p>Submitted on 20250606.
+The new version (1.5) of the submission software blocked my
+submission because a conflict of lang,
+that is, because some files were labeled as plain
+ and others (wrongly) as LaTeX.
+I ask for help, and they allowed me to submitt the PDF file.
+</p>
+
+<p>
+It was rejected on 20250612, using their standard words:
+</p>
+
+<blockquote><i>
+<p>
+We regret to inform you that
+ arXiv’s moderators have determined that
+ your submission will not be accepted and made public on arXiv.org.
+</p>
+
+<p>
+Our moderators determined that
+ your submission does not contain
+ sufficient original or substantive scholarly research
+ and is not of interest to arXiv.
+</p>
+</i></blockquote>
+
+
+<hr/>
+
+<!-- -->
+
+
+<h2>References</h2>
+
+<p>
+ Link to the page of my paper on “On Unprecise Numbers” in
+ <a href="https://figshare.com/articles/preprint/On_Unprecise_Numbers/29066705">figshare</a>,
+ and direct link to the
+ <a download href="https://figshare.com/ndownloader/files/55168385">pdf file</a>.
+</p>
+
+<p>Versions:</p>
+<ul>
+<li><a href="https://figshare.com/ndownloader/files/55168385">f1 20250606</a></li>
+</ul>
+
+
+<hr />
+
+<div id="ending">
+<p>Última actualización: <strong>2025-06-12</strong>.</p>
+<p>© Ramón Casares 2025</p>
+</div>
+
+</body>
+</html>
