@@ -47,7 +47,7 @@ In this I was influenced by Post (1936) and Gödel (1946).
 
 <p>
 As a working hypothesis,
- Post (1936) defended that Church’s thesis is a natural law stating
+ Post (1936) defends that Church’s thesis is a natural law stating
  <cite>the limitations of the mathematicizing power of Homo Sapiens</cite> (page 105, note 8).
  So we can define a Post universe as any universe where Post’s hypothesis is right.
  And if Post were right, then restricting ourselves to what is computable
@@ -91,17 +91,40 @@ Tarski has stressed in his lecture (and I think justly)
 <p>
 Regarding the diagonal procedure,
 when every set is, at most, infinite enumerable,
-there is no chance of going outside the diagonal procedure;
-in particular, the set of all finite strings is enumerable, and
-the set of all computable subsets of finite strings is enumerable, too,
-in apparent contradiction with Cantor's theorem.
+there is no chance of going outside the diagonal procedure.
+In particular, though Cantor had showed that
+ the real numbers cannot be enumerated using the diagonal procedure,
+Turing showed that
+ the computable real numbers are enumerable,
+ in spite of the diagonal procedure!
+</p>
+<p>
+Minsky (1967), page 159, deﬁnes “a computable number to be one for which
+there is a Turing machine which, given <i>n</i> on its initial tape,
+ terminates with the <i>n</i>th digit of that number.”
+Since each Turing machine can generate at most one computable real number
+and the set of all Turing machines is computably enumerable,
+then the set of all computable real numbers is computably enumerable.
+However, given that Turing machines are computably enumerable,
+we can replicate Cantor's matrix of rows of real numbers (and colunms of digits)
+setting one Turing machine in each row (and one digit in each column).
+Changing the digits in the diagonal of this new matrix we would get
+a computable real number that is not in any row of the matrix
+showing that the computable real numbers are not enumerable.
+However, this does not work! Why?
+Because not every Turing machine generates a computable real number,
+but only those that halt on every input,
+and the set of always halting Turing machines is not computably enumerable.
+</p>
+
+<!-- - ->
 In trying to falsify this we could set a Cantor's diagonal procedure.
 A computable set is any expressed by a halting program,
 which either returns the empty string, interpreted as bit 0,
 meaning the the argument string does not belong to the set,
 or any other finite string, interpreted as bit 1,
 meaning the the argument string belongs to the set.
-Now, as the set of the halting programs
+Now, as the set of the halting programs (?)
 and the set of finite strings drawn from a finite set of symbols
 are both computably enumerable,
 we can compute a bit matrix
@@ -136,6 +159,8 @@ set X is not computable.
 Set X is computably enumerable, but it is not computable:
 Set X is undecidable.
 </p>
+
+<!-- -->
 
 <p>
 And regarding orders, I think Gödel (1944) remarks that
@@ -258,29 +283,33 @@ Our moderators determined that
  Link to the page of my paper on “Avoiding the Paradoxes” in
  <a href="https://figshare.com/articles/preprint/Avoiding_the_Paradoxes/28457378">figshare</a>,
  and direct link to the
- <a download href="https://figshare.com/ndownloader/files/52539020">pdf file</a>.
+ <a download href="https://figshare.com/ndownloader/files/56339444">pdf file</a>.
 </p>
 
 <p>These are the external references used in his page:</p>
 <ul>
 <li>Gödel (1946): “Remarks before the Princeton bicentennial conference on problems in mathematics”,
-<a href="https://doi.org/10.1093/oso/9780195147216.003.0009">doi: 10.1093/oso/9780195147216.003.0009</a>.</li>
+ <a href="https://doi.org/10.1093/oso/9780195147216.003.0009">doi: 10.1093/oso/9780195147216.003.0009</a>.</li>
+<li>Minsky (1967): <i>Computation: Finite and Inﬁnite Machines</i>;
+   Prentice-Hall, Englewood Cliﬀs, N.J., 1967. ISBN: 0-13-165563-9.
+</li>
 <li>Post (1936): “Finite Combinatory Processes — Formulation 1”,
-<a href="https://dx.doi.org/10.2307/2269031">doi: 10.2307/2269031</a>.</li>
+ <a href="https://dx.doi.org/10.2307/2269031">doi: 10.2307/2269031</a>.</li>
 <li>Scott (1974): “Axiomatizing Set Theory”,
-<a href="https://dx.doi.org/10.1090/pspum/013.2/0392570">doi: 10.1090/pspum/013.2/0392570</a>.</li>
+ <a href="https://dx.doi.org/10.1090/pspum/013.2/0392570">doi: 10.1090/pspum/013.2/0392570</a>.</li>
 </ul>
 
 <p>Versions:</p>
 <ul>
 <li><a href="https://figshare.com/ndownloader/files/52539020">f1 20250222</a></li>
+<li><a href="https://figshare.com/ndownloader/files/56339444">f2 20250717</a></li>
 </ul>
 
 
 <hr />
 
 <div id="ending">
-<p>Última actualización: <strong>2025-07-02</strong>.</p>
+<p>Last update: <strong>2025-07-17</strong>.</p>
 <p>© Ramón Casares 2025</p>
 </div>
 
