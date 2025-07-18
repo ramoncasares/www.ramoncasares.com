@@ -117,51 +117,6 @@ but only those that halt on every input,
 and the set of always halting Turing machines is not computably enumerable.
 </p>
 
-<!-- - ->
-In trying to falsify this we could set a Cantor's diagonal procedure.
-A computable set is any expressed by a halting program,
-which either returns the empty string, interpreted as bit 0,
-meaning the the argument string does not belong to the set,
-or any other finite string, interpreted as bit 1,
-meaning the the argument string belongs to the set.
-Now, as the set of the halting programs (?)
-and the set of finite strings drawn from a finite set of symbols
-are both computably enumerable,
-we can compute a bit matrix
- with a halting program for each row,
- and a string for each column,
-where the bit in row p and column s is 1
- if string number s belongs to set number p,
-and is 0 otherwise.
-The diagonal procedure defines a set, let us name it X,
-by negating every bit on the diagonal of the matrix.
-To compute whether a string s belongs to set X or not,
-we first compute program number s on string number s,
-and then we switch the interpreted bits.
-Since this set X differs on at least one element from
-every set in the list, it seems that we have proved
-that the set of computable sets is not computably enumerable.
-However, as Gödel writes,
-by a <cite>kind of miracle</cite> this is not the case.
-Set X is not in the enumeration, this is true,
-but set X is not computable, although it could seem so,
-since we can compute whether any particular string belongs to it or not.
-Note that, if set X were computable, then it will be
-computed by a halting program in the enumeration,
-let us call it program number i.
-And then, to compute program number i on string number i,
-we would have first to compute program number i on string number i,
-in order to negate it.
-This would close an infinite loop.
-Therefore, since program number i would not always halt,
-it could not be in the enumeration of halting programs, and
-set X is not computable.
-Set X is computably enumerable, but it is not computable:
-Set X is undecidable.
-</p>
-
-<!-- -->
-
 <p>
 And regarding orders, I think Gödel (1944) remarks that
 computing is self contained, because it can express itself.
