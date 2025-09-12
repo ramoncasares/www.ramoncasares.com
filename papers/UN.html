@@ -54,10 +54,13 @@ However, the final version is more a complementary than a derivative work.
 
 <p>
 While writing it, I had to change my mind because I was wrong.
-My initial idea was to show that the unprecise numbers were the complete numbers,
+Following an intuition by Turing,
+my initial idea was to show that the unprecise numbers were the complete numbers,
 where a complete number is any that requires a complete language to be defined.
-I was also surprised when I realized that number M is computable.
+I was surprised when I realized that
+complete number $R$ is not unprecise, but computable.
 </p>
+
 
 <h2>Syntax and semantics</h2>
 
@@ -73,40 +76,112 @@ In the equation, $\langle\,{\frak p}|\vec{\frak d}\,\rangle$
 is the computation that applies coded data $\vec{\frak d}$ to program $\frak p$,
 where $\frak p$ is the Turing machine $\cal P$ coded in
 the complete language $\cal L$ implemented by the universal Turing machine $\cal U$.
+</p>
+
+<p>
+The <i>syntax</i> of the complete language $\cal L$ is
+the set of its sentences, or well-formed formulas,
+denoted $\Sigma_{\cal L}$.
 For the equation of Turing completeness to work,
 the string $\langle\,{\frak p}|\vec{\frak d}\,\rangle$
-has to be a well-formed formula of language $\cal L$.
-In other words, the syntax of $\cal L$ has to be decidable,
-because otherwise the equation of Turing completeness does not work.
+has to be a well-formed formula of language $\cal L$,
+and then the requirement is to decide,
+for every string of symbols of the universal Turing machine $\cal U$,
+whether it is a well-formed formula or not,
+that is,
+$\forall s \in \Gamma^*_{\cal U}$, to decide
+whether $s\in\Sigma_{\cal L}$ or $s\notin\Sigma_{\cal L}$.
+In other words,
+syntax $\Sigma_{\cal L}$ is decidable.
 </p>
 
 <p>
 Since the well-formed formulas, or sentences, of the complete language $\cal L$ are computations,
-then the semantics of $\cal L$ expresses computations.
-And since the <i>halting theorem</i> says that
-<center><i>no program can decide for every computation whether it will halt or not</i>,</center><br>
-then the semantics of the complete language $\cal L$ is undecidable.
+then the semantics of $\cal L$ expresses computations;
+the meaning of sentence
+ $\langle\,{\frak p}|\vec{\frak d}\,\rangle$
+ is ${\cal P}\langle{\frak d}\rangle$.
+But, since we are finite, we can only reach the meaning of the halting computations,
+then for us <i>semantics</i>, denoted $\Psi_{\!\cal L}$, is the set of the halting computations;
+so $\Psi_{\cal L} \subset \Sigma_{\cal L}$.
+The <i>halting theorem</i> says that
+<center><i>no program can decide for every computation whether it will halt or not</i>.</center><br>
+In other words,
+semantics $\Psi_{\!\cal L}$ is undecidable.
 </p>
 
 <p>
-Therefore, the <i>Corollary</i> to the halting theorem says that
-<center><i>in every complete language, syntax is decidable but semantics is undecidable</i>.</center>
+Summarizing,<br>
+<center><i>in every complete language $\cal L$,
+ syntax $\mit\Sigma_{\cal L}$ is decidable but semantics $\mit\Psi_{\!\cal L}$ is undecidable</i>.</center><br>
+Thus, in the Euler diagram of the complete language $\cal L$,
+the limits of syntax $\Sigma_{\cal L}$ are precise,
+but the limits of semantics $\Psi_{\!\cal L}$ are unprecise.
 </p>
 
+<div style="text-align:center">
+<img src="CompleteLanguage.svg" alt="Euler diagram of a Turing complete language" width="33%">
+</div>
 
-<h2>Paradoxes</h2>
+
+<h2>Numbers, strings and sets</h2>
 
 <p>
-As a consequence of the Corollary to the halting theorem,
-there are paradoxes in every complete language.
-A <i>paradox</i> is a non-halting computation, that is,
-a well-formed formula, or sentence, of a complete language $\cal L$
-the semantics of which we cannot reach because it closes an infinite loop.
+There are bijections
+between the strings and the natural numbers,
+between the natural and the integer numbers, and
+between the natural and the rational numbers,
+$\Sigma_{\cal L} \leftrightarrow {\mathbb N}
+ \leftrightarrow {\mathbb Z} \leftrightarrow {\mathbb Q}$.
+Then any rational number can be coded
+into a string of the complete language.
 </p>
 
 <p>
-The halting theorem can now be stated as follows:
-<center><i>we cannot decide for every sentence whether it is a paradox or not</i>.</center>
+In the case of the real numbers,
+the bijection is between the real numbers and
+the sets of natural numbers,
+${\mathbb R} \leftrightarrow 2^{\mathbb N}$.
+Then, each real number has to be coded into
+a set of strings of the complete language.
+And computing classifies the sets of strings as follows.
+<ul>
+<li>Decidable: if <i>both</i> itself and its complement
+ are computably enumerable.</li>
+<li>Semidecidable: if only one, <i>either</i> itself or its complement,
+ is computably enumerable.</li>
+<li>Undefinable: if <i>neither</i> itself nor its complement
+ is computably enumerable.</li>
+</ul>
+</p>
+
+<p>
+Therefore, we can classify the real numbers accordingly.
+<ul>
+<li>Computable: if its corresponding set is <i>decidable</i>.</li>
+<li>Unprecise: if its corresponding set is <i>semidecidable</i>.</li>
+<li>Random: if its corresponding set is <i>undefinable</i>.</li>
+</ul>
+$$\hbox{Real}\left\{
+  \eqalign{&\hbox{Computable = Decidable}\cr
+    &\hbox{Uncomputable}
+     \left\{\eqalign{&\hbox{Unprecise = Semidecidable}\cr
+         &\hbox{Random = Undefinable}\cr}\right.}\right.
+$$</p>
+
+<p>
+The rational numbers are syntactic,
+since each one can be coded into a single string;
+for example, the rational number three quarters
+ gets coded into the string "3/4",
+ and minus one seventh into "-1/7".
+On the other hand, each irrational number,
+with its non-repeating infinite expansion,
+has to be coded by an infinite set of strings.
+And, in order to define an infinite set,
+a program that enumerates it is required.
+Being defined on the behavior of programs,
+the irrational numbers are semantic.
 </p>
 
 
@@ -117,14 +192,23 @@ The halting theorem can now be stated as follows:
 <p>
 Let me conclude answering our first question:
 Why do not we use, in practice, any uncomputable number?
-Because, being under the law of Post,
-we cannot conceptualize what is not computable.
-In figurative language,
- what is uncomputable is in our conceptual blind spot.
-While paradoxes show that our conceptual blind spot is not precise,
-so the unprecise numbers are in its twilight,
-the blind spot itself provides another argument
-for the law of Post.
+Should we were able to calculate beyond what is computable, then
+we would use, whenever we should see fit,
+super-computable numbers, which would be
+ those numbers that are beyond what is computable, that is, the uncomputable numbers.
+Therefore, either
+<ul>
+<li><i>we cannot calculate what is not computable</i>, or</li>
+<li>the uncomputable numbers are useless.</li>
+</ul>
+I think the first case, which is the law of Post, is true,
+ see <a href="CT.html">Casares (C)</a>,
+which would explain why Church’s thesis was not yet refuted.
+If I am right about this, then the second case is inconsequential,
+even though it is likely false, since
+there are infinitely many more uncomputable than computable numbers.
+And, consequently, my answer is that
+we do not use uncomputable numbers because we are under the law of Post.
 </p>
 
 
@@ -136,12 +220,14 @@ there are three kinds of real numbers:
  the computable, the random, and the unprecise numbers.
 Some unprecise numbers are
 those based on Radó's busy beaver functions,
-Chaitin's constant Ω, and
+Chaitin's constant Ω,
+Turing's uncomputable number δ, and
 those coding the halting problem oracle of a Turing complete language.
-Since <i>number</i> is an undecidable concept,
-the unprecise numbers are its paradoxical instances.
-We show that there are paradoxes in every Turing complete language
-because its syntax is decidable but its semantics is undecidable.</p>
+All these unprecise numbers are complete,
+because they can only be defined in a Turing complete language,
+but we show, against one of Turing's intuitions, that
+not every complete number is unprecise.
+</p>
 </div>
 
 <hr />
@@ -193,19 +279,19 @@ Our moderators determined that
  Link to the page of my paper on “On Unprecise Numbers” in
  <a href="https://figshare.com/articles/preprint/On_Unprecise_Numbers/29066705">figshare</a>,
  and direct link to the
- <a download href="https://figshare.com/ndownloader/files/55168385">pdf file</a>.
+ <a download href="https://figshare.com/ndownloader/files/57789823">pdf file</a>.
 </p>
 
 <p>Versions:</p>
 <ul>
 <li><a href="https://figshare.com/ndownloader/files/55168385">f1 20250606</a></li>
+<li><a href="https://figshare.com/ndownloader/files/57789823">f2 20250909</a></li>
 </ul>
-
 
 <hr />
 
 <div id="ending">
-<p>Última actualización: <strong>2025-06-15</strong>.</p>
+<p>Última actualización: <strong>2025-09-09</strong>.</p>
 <p>© Ramón Casares 2025</p>
 </div>
 
