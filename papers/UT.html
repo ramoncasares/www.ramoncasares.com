@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Ramón Casares / Papers / A Universal Turing Machine</title>
+<link rel="stylesheet" type="text/css" href="../rmcg.css" />
+</head>
+
+<!-- - ->
+<script type="text/javascript"
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_CHTML">
+</script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [['$','$'], ['\\(','\\)']],
+      processEscapes: true },
+    jax: ["input/TeX","input/MathML","input/AsciiMath","output/CommonHTML"],
+    extensions: ["tex2jax.js","mml2jax.js","asciimath2jax.js","MathMenu.js","MathZoom.js","AssistiveMML.js", "[Contrib]/a11y/accessibility-menu.js"],
+    TeX: {
+      extensions: ["AMSmath.js","AMSsymbols.js","noErrors.js","noUndefined.js"],
+      equationNumbers: { autoNumber: "AMS" } },
+  });
+</script>
+<!-- -->
+
+<body>
+
+<h1>A Universal Turing Machine</h1>
+
+<hr />
+
+<p><a href="https://dx.doi.org/10.6084/m9.figshare.32261133">
+ <!-- $ qrencode -o UT-QR-DOI.png 'https://dx.doi.org/10.6084/m9.figshare.32261133'  -->
+ <img src="UT-QR-DOI.png" alt="DOI: 10.6084/m9.figshare.32261133" style="float:right;">
+</a></p>
+
+<p><a href="../index.html">Click here to return to the main page</a></p>
+
+<p><a href="https://dx.doi.org/10.6084/m9.figshare.32261133">
+ DOI: 10.6084/m9.figshare.32261133
+</a></p>
+
+<hr />
+
+
+<h2>Introduction</h2>
+
+<p>
+This paper presents <i>A Universal Turing Machine</i>.
+In fact three universal Turing machines are presented in complete detail.
+To test them, a Turing machine interpreter coded in Lua
+was developed and uploaded to
+<a href="https://github.com/ramoncasares/UTM.git">GitHub</a>,
+so you can use it to test any Turing machine.
+</p>
+
+<p>
+By the way we also explain why
+ the original definition of universal machine by Turing
+has been superseded.
+</p>
+
+
+<h2>Purpose</h2>
+
+<p>
+The ultimate reason why I have written this paper
+is to provide an accesible and foundational proof of the theorem of
+Turing completeness: <i>there is a universal Turing machine</i>.
+I defend that human language is a Turing complete language,
+where a Turing complete language
+is the language of a universal Turing machine.
+Therefore, to me, this theorem is the key to language,
+but I have problems with several of its proofs.
+</p>
+
+<p>
+Some are not constructive.
+For example, section 3 in Davis (1958) chapter 4
+is titled "A Universal Turing Machine" and
+is surprisingly footnoted thus:
+"The present section is a digression and may be ommited
+without disturbing continuity." 
+In any case, the section explains that,
+since function U(min_y T(z,x,y)) is computable,
+ which is the function in the normal form theorem,
+there is a Turing machine that implements it.
+</p>
+
+<p>
+In addition, proofs that use recursion theory,
+as that by Davis (1958), are not foundamental enough.
+Recursion theory is founded on the counting numbers <b>N</b>,
+while computing theory is founded on the finite strings Γ*
+drawn from any alphabet Γ, where an alphabet is
+a completely ordered, finite and non-empty set of symbols.
+There is a bijection # between
+the set of the finite strings and
+the set of the counting numbers,
+∀Γ, #: Γ* ↔ <b>N</b>,
+so they are somewhat at the same lavel, mathematically.
+But the counting numbers are code independent, 
+expressing that they abstract encodings away,
+thus meaning that, in fact, 
+the counting numbers are an abstraction over the strings.
+</p>
+
+<p>
+That computing is more fundamental than recursion
+was already used in 
+<i><a href="GT.html">Gödel Incompleteness and Turing Completeness</a></i>,
+where Gödel's incompleteness theorem of recursion
+is replaced by the more general and much simpler
+halting undecidability theorem of computing.
+And, in this paper, we are replacing
+Kleene's normal form theorem of recursion
+by the more general and much simpler
+Turing completeness theorem of computing.
+</p>
+
+<p>
+The Turing machine is in a particularly nice spot.
+There are simpler computing devices, but they are less capable,
+some have the same capability, but they are more complex,
+and none is more capable.
+Turing (1936) analysis shows that the Turing machine
+is the simplest device capable of performing calculations in general.
+It is then a bit of a surprise that
+everything that is effectively calculable
+can be computed by some Turing machine.
+It is also surprising that
+some Turing machines can emulate any Turing machine.
+And both together imply astonishly that every specific
+universal Turing machine can compute
+anything that is effectively calculable.
+</p>
+
+<p>
+The original universal machine by Turing is too complex,
+while some modern minimal universal Turing machines require
+too much difficult encodings.
+Fortunately, Minsky (1967) came to rescue.
+</p>
+
+
+<h2>MMo-UTM</h2>
+
+<p>
+This is the original universal Turing machine by Marvin Minsky,
+presented in Minsky (1967), §7.
+Following is a recreation of Fig. 7.2-9 in page 142,
+from which the table of MMo-UTM was read.
+MMo-UTM is a 8-symbol 24-state Turing machine.
+MMo-UTM can only emulate binary and singly left-infinite Turing machines.
+</p>
+
+<div style="text-align:center">
+<img src="MMo-UTM.svg" alt="Diagram of MMo-UTM" width="66%">
+</div>
+
+
+<h2>MMr-UTM</h2>
+
+<p>
+MMr-UTM, which is very similar to MMo-UTM,
+is a 9-symbol 31-state Turing machine
+that can emulate any binary Turing machine.
+Following you can find its diagram.
+</p>
+
+<div style="text-align:center">
+<img src="MMr-UTM.svg" alt="Diagram of MMr-UTM" width="66%">
+</div>
+
+<h2>MMc-UTM</h2>
+
+<p>
+Finally, MMc-UTM, a 9-symbol 44-state Turing machine
+that can emulate any Turing machine.
+Following you can find its diagram.
+</p>
+
+<div style="text-align:center">
+<img src="MMc-UTM.svg" alt="Diagram of MMc-UTM" width="66%">
+</div>
+
+
+<h2>Definition of universal Turing machine</h2>
+
+<p>
+The theorem of Turing completeness says:
+<center><i>There is a universal Turing machine.</i></center>
+</p>
+
+<p>
+But, What is a universal Turing machine?
+For Davis (1956), following Turing,
+a universal Turing machine is
+a Turing machine that can “perform any computation
+which could be performed by any given Turing machine.”
+The problem with this definition is that
+it requires to make judgements on the behavior of programs.
+It is clear that a singly infinite tape has enough squares
+to compute any computation, and then
+MMo-UTM is universal under this definition. 
+However, since its tape is <i>only</i> infinite
+to the left, we have to determine in advance
+how many squares to the right does each program require,
+and this is undecidable, as shown by Rice (1953).
+</p>
+
+<p>
+Therefore, a better definition states that
+a universal Turing machine is
+a Turing machine that can emulate any Turing machine.
+This definition is more demanding and, for example,
+MMo-UTM, which is universal under Turing's definition,
+is not universal under this more stringent definition. 
+</p>
+
+
+<hr />
+
+<h2>Errata</h2>
+
+<h3>Clone</h3>
+
+<p>
+The <code>git</code> protocol was deprecated by GitHub
+due to security reasons.
+Therefore, the command in page 6
+<pre>
+...$ git clone git://github.com/ramoncasares/UTM.git
+</pre>
+does not work.
+Please use
+<pre>
+...$ git clone https://github.com/ramoncasares/UTM.git
+</pre>
+instead.
+</p>
+
+
+<hr />
+
+<h2>Last two paragraphs</h2>
+
+<p>Then, an advantage of the proof in this paper is that,
+ being of the lowest level, it does not need any abstraction.
+ Another advantage is that,
+ neither depending on other theorems
+ nor on equivalences with other formulations,
+ it is self-contained.
+ And together, concreteness and independency,
+ show the foundational character
+ of the proof of the theorem of Turing completeness
+ given in this paper, sections §6 and §7.
+</p>
+
+<h3>§9 Conclusion</h3>
+
+<p>In this paper, we have presented the whole table
+ of a universal Turing machine that has not any limitation,
+ that is conceptually simple, and that uses a straightforward encoding.
+ These are qualities that make it a good foundational and constructive proof
+ of the theorem of Turing completeness.
+</p>
+
+
+<div id="abstract">
+<h2>Abstract</h2>
+
+<p>We reconstruct the didactic universal Turing machine
+ by Marvin Minsky, MMo-UTM.
+ We test it on a Turing machine interpreter coded in Lua,
+ we comment on its limitations, and we enhance it twice:
+ MMr-UTM, which can emulate any binary Turing machine; and
+ MMc-UTM, which can emulate any Turing machine.
+ The table of MMc-UTM is listed completely,
+ with comments and an example of emulation.
+ Since it has not any limitation and it
+ uses a straightforward encoding,
+ MMc-UTM makes a good constructive proof of
+ the theorem of Turing completeness.
+</p>
+</div>
+
+<hr />
+
+
+<!-- - ->
+
+<h2>Versions</h2>
+
+
+<h3>"On Unprecise Numbers" v1 submitted to the arXiv</h3>
+
+<p>Submitted on 20250606.
+The new version (1.5) of the submission software blocked my
+submission because a conflict of lang,
+that is, because some files were labeled as plain
+ and others (wrongly) as LaTeX.
+I ask for help, and they allowed me to submitt the PDF file.
+</p>
+
+<p>
+It was rejected on 20250612, using their standard words:
+</p>
+
+<blockquote><i>
+<p>
+We regret to inform you that
+ arXiv’s moderators have determined that
+ your submission will not be accepted and made public on arXiv.org.
+</p>
+
+<p>
+Our moderators determined that
+ your submission does not contain
+ sufficient original or substantive scholarly research
+ and is not of interest to arXiv.
+</p>
+</i></blockquote>
+
+
+<hr/>
+
+<!-- -->
+
+
+<h2>References</h2>
+
+<p>
+ Link to the page of my paper on “A Universal Turing Machine” in
+ <a href="https://figshare.com/articles/preprint/On_Unprecise_Numbers/32261133">figshare</a>,
+ and direct link to the
+ <a download href="https://figshare.com/ndownloader/files/65970665">pdf file</a>.
+</p>
+
+<p>These are the references cited in this page:</p>
+<ul>
+
+<li>
+Davis (1956): M. D. Davis,
+“A Note on Universal Turing Machines”;
+ in Shannon & McCarthy (1956), pp. 167–175,
+ Available also with DOI:
+ <a href="https://doi.org/10.1515/9781400882618-008">10.1515/9781400882618-008</a>.
+</li>
+
+<li>
+Davis (1958): Martin Davis,
+<i>Computability & Unsolvability</i>;
+Dover Publications, New York, 1982,
+ISBN: 978-0-486-61471-7.
+Enlarged version of the work originally published by
+McGraw-Hill Book Company, New York, in 1958.
+</li>
+
+<li>
+GitHub: <tt><a href="https://github.com/ramoncasares/UTM.git">https://github.com/ramoncasares/UTM</a></tt>.
+</li>
+
+<li>
+Minsky (1967): Marvin L. Minsky, 
+<i>Computation: Finite and Infinite Machines</i>;
+Prentice-Hall, Inc, Englewood Cliffs, NJ, 1967,
+ISBN: 978-0-13-165563-8.
+</li>
+
+<li>
+Rice (1953): H. G. Rice,
+ “Classes of Recursively Enumerable Sets and Their Decision Problems”;
+ in Transactions of the American Mathematical Society, vol. 74, pp. 358–366, 1953,
+ DOI:
+ <a href="https://doi.org/10.1090/S0002-9947-1953-0053041-6">10.1090/S0002-9947-1953-0053041-6</a>.
+</li>
+
+<li>
+Shannon & McCarthy (1956): Claude E. Shannon and J. McCarthy, editors,
+<i>Automata Studies</i> (Annals of Mathematics Studies, vol. 34);
+Princeton University Press, Princeton, NJ, 1956,
+ISBN: 978-0-69107916-5.
+Available also with DOI:
+<a href="https://doi.org/10.1515/9781400882618">10.1515/9781400882618</a>.
+</li>
+
+<li>
+Turing (1936): A. M. Turing,
+“On Computable Numbers, with an Application to the Entscheidungsproblem”;
+in Proceedings of the London Mathematical Society,
+vol. s2-42, no. 1, pp. 230–265, 1937, DOI:
+<a href="https://doi.org/10.1112/plms/s2-42.1.230">10.1112/plms/s2-42.1.230</a>.
+Received 28 May, 1936. Read 12 November, 1936.
+</li>
+
+</ul>
+
+
+<p>Versions:</p>
+<ul>
+<li><a href="https://figshare.com/ndownloader/files/65970665">f1 20260626</a></li>
+</ul>
+
+<hr />
+
+<div id="ending">
+<p>Última actualización: <strong>2026-06-28</strong>.</p>
+<p>© Ramón Casares 2026</p>
+</div>
+
+</body>
+</html>
